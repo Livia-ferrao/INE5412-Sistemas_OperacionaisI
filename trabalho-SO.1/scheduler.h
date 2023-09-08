@@ -22,26 +22,30 @@ public:
 
     void run() {};
 
-    virtual void init_ready_queue(std::vector<Process*> processes, int time){
-        std::cout << "Generic1: " << std::endl;  // TODO
-    }
+    virtual void init_ready_queue(std::vector<Process*> processes, int time){}
 
-    virtual void processing() {
-        std::cout << "Generic2: " << std::endl;  // TODO
-    }
-
-    virtual void finish_processing() {
-        std::cout << "Generic3: " << std::endl;  // TODO
-    }
+    virtual void processing(int time) {}
     
-    virtual void print_metrics() {
-        std::cout << "Generic4: " << std::endl;  // TODO
+    virtual void print_state(std::vector<Process*> processes_queue, int time) {
+        cout << time << "-" << time+1 << "\t";
+            for (int i = 0; i < processes_queue.size(); i++) {
+                if (processes_queue[i]->state == "Running"){
+                    cout << "XX |"; 
+                } else if(processes_queue[i]->state == "Ready"){
+                    cout << "-- |";
+                } else if(processes_queue[i]->state == "Finished"){
+                    cout << "   |";
+                } else {
+                    cout << "   |";
+                }
+            }
+        cout << endl;
     }
 
+    virtual void print_metrics() {}
 public:
+    // POSSO POR OS PROCESSOS AQUI PASSANDO POR CONSTRUTOR
     std::queue<Process*> processes;   // A List of Processes
-    Process* current_process = nullptr;
-    int processes_size;
 };
 
 #endif
