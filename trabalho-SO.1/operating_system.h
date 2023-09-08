@@ -10,71 +10,82 @@
 
 #include "read_file.h"
 #include "process.h"
-#include "FCFS.h"
-#include "SJF.h"
 #include "scheduler.h"
 #include "cpu.cpp"
+#include "FCFS.h"
+#include "SJF.h"
+#include "PNP.h"
+#include "PPP.h"
+#include "RR.h"
 // #include "constantes.h"
 
 
 class Operating_system {
     public:
         Operating_system() {
-            std::cout << "Lendo arquivo\n";
-            File f;
-            f.read_file();
-            f.print_processes_params();
-            vector<Process*> processes = f.getProcesses();
-            // processes_queue = processes;
+            // std::cout << "Lendo arquivo\n";
+            // File f;
+            // f.read_file();
+            // f.print_processes_params();
+            // vector<Process*> processes = f.getProcesses();
+            // // processes_queue = processes;
             
-            // Crie uma cópia profunda dos objetos de processo
-            for (const Process* process : processes) {
-                Process* new_process = new Process(*process); // Copie o objeto de processo
-                processes_queue.push_back(new_process);      // Adicione à nova lista
-            }
+            // // Crie uma cópia profunda dos objetos de processo
+            // for (const Process* process : processes) {
+            //     Process* new_process = new Process(*process); // Copie o objeto de processo
+            //     processes_queue.push_back(new_process);      // Adicione à nova lista
+            // }
+
+            scheduler = nullptr;
             time = 0;
         }
 
-        // void create_processes(){
-        //     for (const Process* process : processes_queue) {
-        //         Process* new_process = new Process(*process); // Copie o objeto de processo
-        //         new_processes_queue.push_back(new_process);      // Adicione à nova lista
-        //     }
-        //     time = 0;
-        // }
+        ~Operating_system(){}
+
 
         Scheduler* init_scheduler(int scheduler_type) {
             switch (scheduler_type)
             {
             case 0:
-                // FCFS fcfs;  // Qual a diferença?
                 return new FCFS();
                 break;
             case 1:
                 return new SJF();
                 break;
-            // case 2:
-            //     // return PNPScheduler();
-            //     break;
-            // case 3:
-            //     // return PPScheduler();
-            //     break;
-            // case 4:
-            //     // return RRNPScheduler();
-            //     break;
+            case 2:
+                return new PNP();
+                break;
+            case 3:
+                return new PPP();
+                break;
+            case 4:
+                return new RR();
+                break;
             default:
                 return new FCFS();
             }
         }
 
+        void init_processes(vector<Process*> processes){
+            for (const Process* process : processes) {
+                Process* new_process = new Process(*process); // Copie o objeto de processo
+                processes_queue.push_back(new_process);      // Adicione à nova lista
+            }
+        }
+
         void execute(int scheduler_type) {
+            std::cout << "Lendo arquivo\n";
+            File f;
+            f.read_file();
+            f.print_processes_params();
+            vector<Process*> processes = f.getProcesses();
+            init_processes(processes);
             scheduler = init_scheduler(scheduler_type); // FCFS
             run_scheduler();
         }
 
         void run_scheduler() {
             bool allFinished = false;
-            // create_processes();
 
             while(!allFinished) {
 
@@ -94,6 +105,7 @@ class Operating_system {
             }
 
             // scheduler.print_metrics();
+            time = 0;
         }
 
         bool verify_all_finished(int allFinished){
@@ -135,7 +147,7 @@ class Operating_system {
 
     private:
         std::vector<Process *> processes_queue;
-        std::vector<Process *> new_processes_queue;
+        // std::vector<Process *> new_processes_queue;
         Scheduler* scheduler;
         CPU cpu;
         int time;

@@ -51,7 +51,6 @@ private:
         cpu_context.set_st(p_context.get_st());
         cpu_context.set_pc(p_context.get_pc());
     }
-
 };
 
 #endif

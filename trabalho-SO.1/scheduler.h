@@ -43,9 +43,11 @@ public:
     }
 
     virtual void print_metrics() {}
-public:
+    
+protected:
     // POSSO POR OS PROCESSOS AQUI PASSANDO POR CONSTRUTOR
     std::queue<Process*> processes;   // A List of Processes
+    Process* running_process;
 };
 
 #endif

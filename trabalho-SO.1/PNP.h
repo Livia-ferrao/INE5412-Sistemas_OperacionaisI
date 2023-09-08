@@ -1,15 +1,16 @@
-#ifndef FCFS_H
-#define FCFS_H
+#ifndef PNP_H
+#define PNP_H
 
+#include <queue>
 #include <vector>
 #include "process.h"
 #include "scheduler.h"
 
-class FCFS: public Scheduler {
+class PNP: public Scheduler {
 
 public:
 
-    FCFS() {};
+    PNP() {};
 
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){
@@ -22,7 +23,7 @@ public:
     }
 
     void processing(int time) {
-        //  Verifica se tem processo em execução e o tempo de execução terminou
+        //  Verifica se tem processo em execução e ainda tem tempo de execução
         if (running_process != nullptr && running_process->remaining_time == 0) {
             running_process->state = "Finished";
             running_process->end = time;
@@ -31,11 +32,11 @@ public:
 
         // Verifica se o processador está livre e tem processo na fila
         if (running_process == nullptr && !ready_processes.empty()) {
-            Process* next_task = ready_processes.front();
+            Process* next_process = ready_processes.top();
             ready_processes.pop();
-            next_task->state = "Running";
-            next_task->begin = time;
-            running_process = next_task;
+            next_process->state = "Running";
+            next_process->begin = time;
+            running_process = next_process;
         }
 
         // Processo executando
@@ -46,7 +47,18 @@ public:
 
 
 private:
-    std::queue<Process*> ready_processes;   // A List of Processes
+    // std::queue<Process*> ready_processes;   // A List of Processes
+    Process* running_process;
+    int processes_size;
+
+    struct CompareProcessesPriority {
+        bool operator()(const Process* a, const Process* b) const {
+            return a->priority < b->priority; // Comparação por prioridade
+        }
+    };
+    
+    std::priority_queue<Process*, std::vector<Process*>, CompareProcessesPriority> ready_processes;
+
 };
 
 #endif

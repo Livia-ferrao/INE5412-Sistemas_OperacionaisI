@@ -1,16 +1,16 @@
-#ifndef SJF_H
-#define SJF_H
+#ifndef PPP_H
+#define PPP_H
 
 #include <queue>
 #include <vector>
 #include "process.h"
 #include "scheduler.h"
 
-class SJF: public Scheduler {
+class PPP: public Scheduler {
 
 public:
 
-    SJF() {};
+    PPP() {};
 
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){
@@ -30,8 +30,13 @@ public:
             running_process = nullptr;
         }
 
-        // Verifica se o processador está livre e tem processo na fila
-        if (running_process == nullptr && !ready_processes.empty()) {
+        if ((running_process == nullptr || running_process->priority < ready_processes.top()->priority) && !ready_processes.empty()) {
+            if (running_process != nullptr) {
+                // Preempção: atualize o estado do processo em execução e coloque-o de volta na fila de prontidão
+                running_process->state = "Ready";
+                ready_processes.push(running_process);
+            }
+            // Selecione o próximo processo com maior prioridade
             Process* next_process = ready_processes.top();
             ready_processes.pop();
             next_process->state = "Running";
@@ -47,13 +52,12 @@ public:
 
 
 private:
-    struct CompareProcessesDuration {
+    struct CompareProcessesPriority {
         bool operator()(const Process* a, const Process* b) const {
-            return a->duration > b->duration;
+            return a->priority < b->priority; // Comparação por prioridade
         }
     };
-    std::priority_queue<Process*, std::vector<Process*>, CompareProcessesDuration> ready_processes;
-
+    std::priority_queue<Process*, std::vector<Process*>, CompareProcessesPriority> ready_processes;
 };
 
 #endif
