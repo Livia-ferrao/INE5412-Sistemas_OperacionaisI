@@ -7,10 +7,11 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
-#include "process.h"
+
 #include "read_file.h"
+#include "process.h"
 #include "FCFS.h"
-#include "scheduler.cpp"
+#include "scheduler.h"
 #include "cpu.cpp"
 // #include "constantes.h"
 
@@ -23,13 +24,13 @@ class Operating_system {
             f.read_file();
             f.print_processes_params();
             vector<Process*> processes = f.getProcesses();
-            processes_queue = processes;
+            // processes_queue = processes;
 
             // Crie uma cópia profunda dos objetos de processo
-            // for (const Process* process : processes) {
-            //     Process* new_process = new Process(*process); // Copie o objeto de processo
-            //     processes_queue.push_back(new_process);      // Adicione à nova lista
-            // }
+            for (const Process* process : processes) {
+                Process* new_process = new Process(*process); // Copie o objeto de processo
+                processes_queue.push_back(new_process);      // Adicione à nova lista
+            }
             time = 0;
         }
 
@@ -58,7 +59,6 @@ class Operating_system {
         }
 
         void execute(int scheduler_type) {
-            // FCFS* scheduler = new FCFS();
             scheduler = create_scheduler(scheduler_type); // FCFS
             // run_scheduler();
         }

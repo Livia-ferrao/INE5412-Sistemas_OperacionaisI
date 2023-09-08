@@ -1,6 +1,5 @@
 #include <iostream>
 #include "operating_system.h"
-#include "FCFS.h"
 
 int main(){
     int scheduler_type;
@@ -9,7 +8,7 @@ int main(){
 
     Operating_system OS;             
     OS.execute(scheduler_type);
-    
+
     return 0;
 }
 

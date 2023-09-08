@@ -2,8 +2,15 @@
 #define SCHEDULER_H
 
 #include <list>
-#include "process.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <queue>
+#include <algorithm>
+#include <ostream>
 
+#include "process.h"
 
 class Scheduler {
 public:
@@ -32,8 +39,8 @@ public:
     }
 
 public:
-    std::list<Process*> processes;   // A List of Processes
-    Process* current_process;
+    std::queue<Process*> processes;   // A List of Processes
+    Process* current_process = nullptr;
     int processes_size;
 };
 

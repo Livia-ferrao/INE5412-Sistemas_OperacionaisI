@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "process.h"
-// #include "scheduler.h"
+#include "scheduler.h"
 
 class FCFS: public Scheduler {
 
@@ -28,7 +28,7 @@ public:
     }
 
 private:
-    std::list<Process*> processes;   // A List of Processes
+    std::queue<Process*> processes;   // A List of Processes
     Process* current_process;
     int processes_size;
 };
