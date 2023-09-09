@@ -43,7 +43,14 @@ class Operating_system {
             time = 0;
         }
 
-        ~Operating_system(){}
+        ~Operating_system(){
+            for(int i = 0; i < processes_queue.size() ; i++) {
+			    Process *p = processes_queue[i];
+			    delete p;
+		    }
+            delete scheduler;
+            delete cpu;
+        }
 
 
         Scheduler* init_scheduler(int scheduler_type) {

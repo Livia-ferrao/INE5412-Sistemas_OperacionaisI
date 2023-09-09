@@ -15,8 +15,6 @@ using namespace std;
 class Process
 {
 public:
-    Process() {};
-
 	Process(int c, int d, int p, int pid) { 
         id = pid;
 		creation_time = c;
@@ -30,6 +28,10 @@ public:
         state = "New";
         p_context = new Context();
 	}
+
+    // ~Process() {
+    //     delete p_context;
+    // }
 
 	friend ostream &operator<<(ostream& os, const Process& p) {
 		os << p.id << " - Creation time = " << p.creation_time << " duration = " << p.duration << " priority = " << p.priority << endl;

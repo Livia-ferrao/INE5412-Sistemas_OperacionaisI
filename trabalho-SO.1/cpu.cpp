@@ -13,7 +13,9 @@ public:
         count_change_context = 0;
     }
 
-    ~CPU() {}
+    ~CPU() {
+        delete cpu_context;
+    }
 
     void print_CPU_context(){
         cout << "=========== CPU CONTEXT =============" << endl;

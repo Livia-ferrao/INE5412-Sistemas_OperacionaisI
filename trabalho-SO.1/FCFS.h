@@ -11,6 +11,14 @@ public:
 
     FCFS(CPU* _cpu) : Scheduler(_cpu) {}
 
+    ~FCFS(){
+        while (!ready_processes.empty()) {
+            Process* process = ready_processes.front();  // Obtenha o próximo elemento da fila
+            ready_processes.pop();  // Remova o elemento da fila
+            delete process;  // Libere a memória do objeto Process
+        }
+    }
+
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){
         for (Process *process : processes) {
