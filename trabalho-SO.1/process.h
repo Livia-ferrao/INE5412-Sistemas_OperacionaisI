@@ -35,6 +35,16 @@ public:
 		os << p.id << " - Creation time = " << p.creation_time << " duration = " << p.duration << " priority = " << p.priority << endl;
 		return os;
 	}
+
+    void print_process_context(){
+        cout << "=========== PROCESS CONTEXT =============" << endl;
+        cout << "- PC: " << p_context->get_pc() << endl;
+        cout << "- SP: " << p_context->get_sp() << endl;
+        cout << "- ST: " << p_context->get_st() << endl;
+        for (int i=0; i < 6; i++){
+            cout << "- REGISTER " << i << ": " << p_context->get_registers(i) << endl;
+        }
+    }
 	
 public:	
     int id;

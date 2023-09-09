@@ -103,11 +103,13 @@ class Operating_system {
                 }
 
                 scheduler->print_state(processes_queue, time);
+                
+                // PARA VER O CONTEXTO DOS PROCESSOS E DA CPU A CADA SEGUNDO DE TEMPO DESCOMENTE ESTA LINHA
+                // scheduler->print_context();
 
                 ++time;
             }
-
-            // scheduler->print_metrics();
+            print_metrics();
             time = 0;
         }
 
@@ -129,6 +131,27 @@ class Operating_system {
                 cout << "CREATION TIME: " << processes_queue[i]->creation_time << endl;
                 //...
             }
+        }
+
+        void print_metrics(){
+            int avgtat = 0;
+            int avgwt = 0;
+            for (Process *p : processes_queue) {
+                p->turnround_time =  p->end - p->creation_time;
+                p->waiting_time = p->turnround_time - p->duration;
+                cout << "------------ PROCESSO " << p->id << "------------";
+                cout << "\nTurnround time = " << p->turnround_time;
+                cout << "\nWaiting time = " << p->waiting_time;
+
+                avgtat = avgtat + p->turnround_time;
+                avgwt = avgwt + p->waiting_time;
+                cout << "\n\n";
+            }
+
+            cout << "\nTempo médio de Turnround time = " << avgtat/processes_queue.size();
+            cout << "\nTempo médio de Waiting Time = " << avgwt/processes_queue.size();
+            cout << "\nTrocas de contexto = " << cpu->get_count_change_context();
+            cout << "\n";
         }
 
     private:

@@ -26,6 +26,11 @@ public:
     virtual void init_ready_queue(std::vector<Process*> processes_queue, int time){}
 
     virtual void processing(int time) {}
+
+    virtual void print_context(){
+        cpu->print_CPU_context();
+        running_process->print_process_context();
+    }
     
     virtual void print_state(std::vector<Process*> processes_queue, int time) {
         cout << time << "-" << time+1 << "\t";

@@ -24,9 +24,9 @@ public:
     void processing(int time) {
         //  Verifica se tem processo em execução e o tempo de execução terminou
         if (running_process != nullptr && running_process->remaining_time == 0) {
-            running_process->state = "Finished";
-            // Salva o contexto
+            // Salva o contexto da CPU para o processo
             cpu->save_context(running_process->p_context);
+            running_process->state = "Finished";
             running_process->end = time;
             running_process = nullptr;
 
@@ -39,8 +39,8 @@ public:
             next_task->state = "Running";
             next_task->begin = time;
             running_process = next_task;
-            // Restaura o contexto
-            // cpu->load_context(running_process->p_context);
+            // Crrega o contexto do processo para a CPU
+            cpu->load_context(running_process->p_context);
         }
 
         // Processo executando
