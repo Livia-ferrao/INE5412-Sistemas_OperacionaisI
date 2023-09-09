@@ -25,6 +25,7 @@ class Operating_system {
     vector<Process*> process;
 
     public:
+        // Construtor
         Operating_system() {
             // std::cout << "Lendo arquivo\n";
             // File f;
@@ -40,9 +41,9 @@ class Operating_system {
             // }
 
             scheduler = nullptr;
-            time = 0;
         }
 
+        // Destrutor
         ~Operating_system(){
             for(int i = 0; i < processes_queue.size() ; i++) {
 			    Process *p = processes_queue[i];
@@ -53,7 +54,7 @@ class Operating_system {
             delete cpu;
         }
 
-
+        // Inicializa escalonador
         Scheduler* init_scheduler(int scheduler_type) {
             switch (scheduler_type)
             {
@@ -73,17 +74,19 @@ class Operating_system {
                 return new RR(cpu);
                 break;
             default:
-                return new FCFS(cpu);
+                return new RR(cpu);
             }
         }
 
+        // Cria novos procesos e adiciona na fila
         void init_processes(vector<Process*> processes){
             for (const Process* process : processes) {
-                Process* new_process = new Process(*process); // Copie o objeto de processo
-                processes_queue.push_back(new_process);      // Adicione à nova lista
+                Process* new_process = new Process(*process);
+                processes_queue.push_back(new_process);     
             }
         }
 
+        // Le a entrada, inicializa os processos, a CPU, o escalonador e chama a execução do algoritmo
         void execute(int scheduler_type) {
             std::cout << "Lendo arquivo\n";
             File f;
@@ -96,7 +99,9 @@ class Operating_system {
             run_scheduler();
         }
 
+        // Enquanto todos processos não estarem no estado Finished então execute o escalonador
         void run_scheduler() {
+            int time = 0;
             bool allFinished = false;
 
             while(!allFinished) {
@@ -121,17 +126,19 @@ class Operating_system {
             time = 0;
         }
 
+        // Verificação de término
         bool verify_all_finished(int allFinished){
             allFinished = true;
             for (int i = 0; i < processes_queue.size(); i++) {
                 if (processes_queue[i]->state != "Finished") {
-                    allFinished = false; // Se qualquer processo não estiver Finished, defina a variável como false
+                    allFinished = false;
                     return allFinished;
                 }
             }
             return allFinished;
         }
 
+        // Imprimir na tela os atributos dos processos
         void print_processes_queue(){
             for (int i = 0; i < processes_queue.size(); i++) {
                 cout << "ID: " << processes_queue[i]->id << endl;
@@ -141,6 +148,7 @@ class Operating_system {
             }
         }
 
+        // Imprimir na tela métricas finais de cada algoritmo de escalonamento
         void print_metrics(){
             int avgtat = 0;
             int avgwt = 0;
@@ -166,7 +174,6 @@ class Operating_system {
         std::vector<Process *> processes_queue;
         Scheduler* scheduler;
         CPU* cpu;
-        int time;
 };
 
 #endif

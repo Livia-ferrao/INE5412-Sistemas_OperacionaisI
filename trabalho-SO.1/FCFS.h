@@ -8,18 +8,19 @@
 class FCFS: public Scheduler {
 
 public:
-
+    // Construtor
     FCFS(CPU* _cpu) : Scheduler(_cpu) {}
 
+    // Destrutor
     ~FCFS(){
-        while (!ready_processes.empty()) {
-            Process* process = ready_processes.front();  // Obtenha o próximo elemento da fila
-            ready_processes.pop();  // Remova o elemento da fila
-            delete process;  // Libere a memória do objeto Process
-        }
+        // while (!ready_processes.empty()) {
+        //     Process* process = ready_processes.front();  // Obtenha o próximo elemento da fila
+        //     ready_processes.pop();  // Remova o elemento da fila
+        //     delete process;  // Libere a memória do objeto Process
+        // }
     }
 
-    // Verifica se alguma tarefa inicia agora
+    // Verifica se alguma tarefa inicia agora e adiciona na fila
     void init_ready_queue(std::vector<Process*> processes, int time){
         for (Process *process : processes) {
             if (process->creation_time == time) {
@@ -32,9 +33,9 @@ public:
     void processing(int time) {
         //  Verifica se tem processo em execução e o tempo de execução terminou
         if (running_process != nullptr && running_process->remaining_time == 0) {
-            // Salva o contexto da CPU para o processo
             running_process->state = "Finished";
             running_process->end = time;
+            // Salva o contexto da CPU para o processo
             cpu->save_context(running_process->p_context);
             running_process = nullptr;
 
@@ -59,7 +60,7 @@ public:
 
 
 private:
-    std::queue<Process*> ready_processes;   // A List of Processes
+    std::queue<Process*> ready_processes;
 };
 
 #endif

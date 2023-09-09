@@ -33,11 +33,13 @@ public:
     //     delete p_context;
     // }
 
+    // Função que printa os atributos constantes do processo
 	friend ostream &operator<<(ostream& os, const Process& p) {
 		os << p.id << " - Creation time = " << p.creation_time << " duration = " << p.duration << " priority = " << p.priority << endl;
 		return os;
 	}
 
+    // Função que printa os valores dos registradores do contexto do processo
     void print_process_context(){
         cout << "=========== PROCESS CONTEXT =============" << endl;
         cout << "- PC: " << p_context->get_pc() << endl;
@@ -139,10 +141,10 @@ public:
     int begin;
     int end; 
     string state;
+    Context* p_context;
     // int total_exec_time;
     // static int active_processes;
 
-    Context* p_context;
 };
 
 #endif

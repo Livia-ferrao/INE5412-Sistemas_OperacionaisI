@@ -10,6 +10,7 @@ using namespace std;
 
 class Context {
 public:
+    // Construtor
     Context() {
         for (int i = 0; i < 6; ++i) {
             registers[i] = 0;
@@ -19,16 +20,18 @@ public:
         st = 0;
     }
 
+     // Destrutor
+    ~Context() {}
+
+    // Gera valores aleatórios para os registradores para simular a troca de contexto
     void generate_random_values(){
         for (int i = 0; i < 6; ++i) {
-            registers[i] = rand(); // Atribui um novo valor aleatório ao registrador
+            registers[i] = rand();
         }
         pc = rand();
         st = rand();
         sp = rand();
     }
-
-    ~Context() {}
 
     int get_registers(int index) {
         return registers[index];

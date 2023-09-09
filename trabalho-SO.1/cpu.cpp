@@ -8,15 +8,18 @@
 
 class CPU {
 public:
+    // Construtor
     CPU() {
         cpu_context = new Context();
         count_change_context = 0;
     }
 
+    // Destrutor
     ~CPU() {
         delete cpu_context;
     }
 
+    // Imprime na rela os valores dos regisradores da CPU
     void print_CPU_context(){
         cout << "=========== CPU CONTEXT =============" << endl;
         cout << "- PC: " << cpu_context->get_pc() << endl;
@@ -27,12 +30,12 @@ public:
         }
     }
 
-    // Seta os registradores da CPU com os valores dos registradores dos processos
+    // Salva o contexto do processo para os registradores da CPU
     void load_context(Context* p_context) {
         // Gera valores aleatórios para os registradores dos processos
         p_context->generate_random_values();
 
-         // Contagem da troca de contexto
+        // Contagem da troca de contexto
         count_change_context += 1;
 
         for (int i=0; i < 6; i++){
