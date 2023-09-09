@@ -28,7 +28,7 @@ public:
         begin = -1;
         end = -1;
         state = "New";
-        // p_context = new Context();
+        p_context = new Context();
 	}
 
 	friend ostream &operator<<(ostream& os, const Process& p) {
@@ -52,7 +52,7 @@ public:
     // static Process* running;
     // static int active_processes;
 
-    Context* p_context = nullptr;
+    Context* p_context;
 };
 
 #endif

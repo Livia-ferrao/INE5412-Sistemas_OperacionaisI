@@ -9,7 +9,7 @@
 class CPU {
 public:
     CPU() {
-        // cpu_context = new Context();
+        cpu_context = new Context();
         count_change_context = 0;
     }
 
@@ -25,7 +25,7 @@ public:
     // }
 
     void load_context(Context* p_context) {
-        p_context->set_registers(cpu_context->get_registers());
+        // p_context->set_registers(cpu_context->get_registers());
         p_context->set_st(cpu_context->get_st());
         p_context->set_sp(cpu_context->get_sp());
         p_context->set_pc(cpu_context->get_pc());
@@ -34,7 +34,7 @@ public:
      void save_context(Context* p_context) {
         // Generate random values for de processes registers
         p_context->generate_random_values();
-        cpu_context->set_registers(p_context->get_registers());
+        // cpu_context->set_registers(p_context->get_registers());
         cpu_context->set_sp(p_context->get_sp());
         cpu_context->set_st(p_context->get_st());
         cpu_context->set_pc(p_context->get_pc());

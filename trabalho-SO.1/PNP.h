@@ -10,7 +10,7 @@ class PNP: public Scheduler {
 
 public:
 
-    PNP(CPU& _cpu) : Scheduler(_cpu) {}
+    PNP(CPU* _cpu) : Scheduler(_cpu) {}
 
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){

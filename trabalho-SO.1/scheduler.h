@@ -15,7 +15,7 @@
 
 class Scheduler {
 public:
-    Scheduler(CPU& cpu) : cpu(cpu) {}
+    Scheduler(CPU* _cpu) : cpu(_cpu), running_process(nullptr) {}
 
     // Scheduler() {} // Construtor padrão
 
@@ -47,9 +47,9 @@ public:
 
 protected:
     // POSSO POR OS PROCESSOS AQUI PASSANDO POR CONSTRUTOR
-    std::queue<Process*> processes;   // A List of Processes
+    // std::queue<Process*> processes;   // A List of Processes
     Process* running_process;
-    CPU cpu;
+    CPU* cpu;
 };
 
 #endif

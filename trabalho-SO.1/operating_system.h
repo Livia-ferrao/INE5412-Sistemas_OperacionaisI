@@ -83,6 +83,7 @@ class Operating_system {
             f.print_processes_params();
             vector<Process*> processes = f.getProcesses();
             init_processes(processes);
+            cpu = new CPU();
             scheduler = init_scheduler(scheduler_type); // FCFS, SJF, RR...
             run_scheduler();
         }
@@ -133,7 +134,7 @@ class Operating_system {
     private:
         std::vector<Process *> processes_queue;
         Scheduler* scheduler;
-        CPU cpu;
+        CPU* cpu;
         int time;
 };
 

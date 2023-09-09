@@ -48,9 +48,9 @@ public:
         return st;
     }
 
-    void set_registers(const vector<int>& registers_) {
-        registers = registers_;
-    }
+    // void set_registers(const vector<int>& registers_) {
+    //     registers = registers_;
+    // }
 
     void set_sp(int sp_){
         sp = sp_;
