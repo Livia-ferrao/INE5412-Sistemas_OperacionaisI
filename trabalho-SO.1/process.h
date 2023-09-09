@@ -47,6 +47,86 @@ public:
             cout << "- REGISTER " << i << ": " << p_context->get_registers(i) << endl;
         }
     }
+
+    int get_id() const {
+        return id;
+    }
+
+    void set_id(int _id) {
+        id = _id;
+    }
+
+    int get_creation_time() const {
+        return creation_time;
+    }
+
+    void set_creation_time(int _creation_time) {
+        creation_time = _creation_time;
+    }
+
+    int get_duration() const {
+        return duration;
+    }
+
+    void set_duration(int _duration) {
+        duration = _duration;
+    }
+
+    int get_priority() const {
+        return priority;
+    }
+
+    void set_priority(int _priority) {
+        priority = _priority;
+    }
+
+    int get_waiting_time() const {
+        return waiting_time;
+    }
+
+    void set_waiting_time(int _waiting_time) {
+        waiting_time = _waiting_time;
+    }
+
+    int get_turnround_time() const {
+        return turnround_time;
+    }
+
+    void set_turnround_time(int _turnround_time) {
+        turnround_time = _turnround_time;
+    }
+
+    int get_remaining_time() const {
+        return remaining_time;
+    }
+
+    void set_remaining_time(int _remaining_time) {
+        remaining_time = _remaining_time;
+    }
+
+    int get_begin() const {
+        return begin;
+    }
+
+    void set_begin(int _begin) {
+        begin = _begin;
+    }
+
+    int get_end() const {
+        return end;
+    }
+
+    void set_end(int _end) {
+        end = _end;
+    }
+
+    string get_state() const {
+        return state;
+    }
+
+    void set_state(const string& _state) {
+        state = _state;
+    }
 	
 public:	
     int id;
@@ -60,8 +140,6 @@ public:
     int end; 
     string state;
     // int total_exec_time;
-    // int quantum_exec_time;
-    // static Process* running;
     // static int active_processes;
 
     Context* p_context;

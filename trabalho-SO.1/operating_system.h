@@ -48,6 +48,7 @@ class Operating_system {
 			    Process *p = processes_queue[i];
 			    delete p;
 		    }
+
             delete scheduler;
             delete cpu;
         }

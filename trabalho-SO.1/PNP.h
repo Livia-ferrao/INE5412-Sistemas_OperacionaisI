@@ -27,6 +27,8 @@ public:
         if (running_process != nullptr && running_process->remaining_time == 0) {
             running_process->state = "Finished";
             running_process->end = time;
+            // Salva o contexto da CPU para o processo
+            cpu->save_context(running_process->p_context);
             running_process = nullptr;
         }
 
@@ -37,6 +39,8 @@ public:
             next_process->state = "Running";
             next_process->begin = time;
             running_process = next_process;
+            // Crrega o contexto do processo para a CPU
+            cpu->load_context(running_process->p_context);
         }
 
         // Processo executando

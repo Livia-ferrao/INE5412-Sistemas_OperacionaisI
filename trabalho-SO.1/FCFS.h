@@ -33,9 +33,9 @@ public:
         //  Verifica se tem processo em execução e o tempo de execução terminou
         if (running_process != nullptr && running_process->remaining_time == 0) {
             // Salva o contexto da CPU para o processo
-            cpu->save_context(running_process->p_context);
             running_process->state = "Finished";
             running_process->end = time;
+            cpu->save_context(running_process->p_context);
             running_process = nullptr;
 
         }
