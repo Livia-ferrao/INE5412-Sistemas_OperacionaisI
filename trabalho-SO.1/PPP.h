@@ -10,7 +10,7 @@ class PPP: public Scheduler {
 
 public:
 
-    PPP() {};
+    PPP(CPU& _cpu) : Scheduler(_cpu) {}
 
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){

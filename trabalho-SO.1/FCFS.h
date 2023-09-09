@@ -9,7 +9,7 @@ class FCFS: public Scheduler {
 
 public:
 
-    FCFS() {};
+    FCFS(CPU& _cpu) : Scheduler(_cpu) {}
 
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){
@@ -27,6 +27,8 @@ public:
             running_process->state = "Finished";
             running_process->end = time;
             running_process = nullptr;
+            // Salva o contexto
+            cpu.save_context(running_process->p_context);
         }
 
         // Verifica se o processador está livre e tem processo na fila
@@ -36,6 +38,8 @@ public:
             next_task->state = "Running";
             next_task->begin = time;
             running_process = next_task;
+            // Restaura o contexto
+            // cpu.load_context(running_process->p_context);
         }
 
         // Processo executando

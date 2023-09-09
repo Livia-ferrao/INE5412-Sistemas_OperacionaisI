@@ -11,18 +11,19 @@
 #include <ostream>
 
 #include "process.h"
+#include "cpu.cpp"
 
 class Scheduler {
 public:
-    Scheduler() {}
-    //    FCFS(CPU& _cpu) : Scheduler(_cpu) {}
+    Scheduler(CPU& cpu) : cpu(cpu) {}
 
+    // Scheduler() {} // Construtor padrão
 
     ~Scheduler() {}
 
     void run() {};
 
-    virtual void init_ready_queue(std::vector<Process*> processes, int time){}
+    virtual void init_ready_queue(std::vector<Process*> processes_queue, int time){}
 
     virtual void processing(int time) {}
     
@@ -43,11 +44,12 @@ public:
     }
 
     virtual void print_metrics() {}
-    
+
 protected:
     // POSSO POR OS PROCESSOS AQUI PASSANDO POR CONSTRUTOR
     std::queue<Process*> processes;   // A List of Processes
     Process* running_process;
+    CPU cpu;
 };
 
 #endif

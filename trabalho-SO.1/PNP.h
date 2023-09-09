@@ -10,7 +10,7 @@ class PNP: public Scheduler {
 
 public:
 
-    PNP() {};
+    PNP(CPU& _cpu) : Scheduler(_cpu) {}
 
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){
@@ -49,14 +49,12 @@ public:
 private:
     // std::queue<Process*> ready_processes;   // A List of Processes
     Process* running_process;
-    int processes_size;
-
     struct CompareProcessesPriority {
         bool operator()(const Process* a, const Process* b) const {
             return a->priority < b->priority; // Comparação por prioridade
         }
     };
-    
+
     std::priority_queue<Process*, std::vector<Process*>, CompareProcessesPriority> ready_processes;
 
 };

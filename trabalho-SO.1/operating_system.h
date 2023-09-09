@@ -21,6 +21,9 @@
 
 
 class Operating_system {
+    
+    vector<Process*> process;
+
     public:
         Operating_system() {
             // std::cout << "Lendo arquivo\n";
@@ -28,7 +31,7 @@ class Operating_system {
             // f.read_file();
             // f.print_processes_params();
             // vector<Process*> processes = f.getProcesses();
-            // // processes_queue = processes;
+            // processes_queue = processes;
             
             // // Crie uma cópia profunda dos objetos de processo
             // for (const Process* process : processes) {
@@ -47,22 +50,22 @@ class Operating_system {
             switch (scheduler_type)
             {
             case 0:
-                return new FCFS();
+                return new FCFS(cpu);
                 break;
             case 1:
-                return new SJF();
+                return new SJF(cpu);
                 break;
             case 2:
-                return new PNP();
+                return new PNP(cpu);
                 break;
             case 3:
-                return new PPP();
+                return new PPP(cpu);
                 break;
             case 4:
-                return new RR();
+                return new RR(cpu);
                 break;
             default:
-                return new FCFS();
+                return new FCFS(cpu);
             }
         }
 
@@ -80,7 +83,7 @@ class Operating_system {
             f.print_processes_params();
             vector<Process*> processes = f.getProcesses();
             init_processes(processes);
-            scheduler = init_scheduler(scheduler_type); // FCFS
+            scheduler = init_scheduler(scheduler_type); // FCFS, SJF, RR...
             run_scheduler();
         }
 
@@ -91,7 +94,6 @@ class Operating_system {
 
                 scheduler->init_ready_queue(processes_queue, time);
                 scheduler->processing(time);
-                // cpu.switch_context();
 
                 allFinished = verify_all_finished(allFinished);
                 if (allFinished){
@@ -104,7 +106,7 @@ class Operating_system {
                 ++time;
             }
 
-            // scheduler.print_metrics();
+            // scheduler->print_metrics();
             time = 0;
         }
 
@@ -119,23 +121,6 @@ class Operating_system {
             return allFinished;
         }
 
-        // colocar para escalonador e passar o processes_queue
-        // void print_processes_state(){
-        //     cout << time << "-" << time+1 << "\t";
-        //     for (int i = 0; i < processes_queue.size(); i++) {
-        //         if (processes_queue[i]->state == "Running"){
-        //             cout << "XX |"; 
-        //         } else if(processes_queue[i]->state == "Ready"){
-        //             cout << "-- |";
-        //         } else if(processes_queue[i]->state == "Finished"){
-        //             cout << "   |";
-        //         } else {
-        //             cout << "   |";
-        //         }
-        //     }
-        //     cout << endl;
-        // }
-
         void print_processes_queue(){
             for (int i = 0; i < processes_queue.size(); i++) {
                 cout << "ID: " << processes_queue[i]->id << endl;
@@ -147,7 +132,6 @@ class Operating_system {
 
     private:
         std::vector<Process *> processes_queue;
-        // std::vector<Process *> new_processes_queue;
         Scheduler* scheduler;
         CPU cpu;
         int time;
