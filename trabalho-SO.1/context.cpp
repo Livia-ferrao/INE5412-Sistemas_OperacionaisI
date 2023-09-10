@@ -3,37 +3,38 @@
 
 #include <vector>
 #include <cstdlib> 
+#include <ctime>
+#include <random>
+#include <iostream>
 using namespace std;
 
 class Context {
 public:
+    // Construtor
     Context() {
-        registers = vector<int>(6);
+        for (int i = 0; i < 6; ++i) {
+            registers[i] = 0;
+        }
         sp = 0;
         pc = 0;
         st = 0;
     }
 
-    Context(vector<int> registers_, int sp_, int pc_, int st_) {
-        registers = registers_;
-        sp = sp_;
-        pc = pc_;
-        st = st_;
-    }
+     // Destrutor
+    ~Context() {}
 
+    // Gera valores aleatórios para os registradores para simular a troca de contexto
     void generate_random_values(){
         for (int i = 0; i < 6; ++i) {
-                registers[i] = rand(); // Atribui um novo valor aleatório ao registrador
+            registers[i] = rand();
         }
         pc = rand();
         st = rand();
         sp = rand();
     }
 
-    ~Context() {}
-
-    vector<int> get_registers() {
-        return registers;
+    int get_registers(int index) {
+        return registers[index];
     }
 
     int get_sp()  {
@@ -48,9 +49,9 @@ public:
         return st;
     }
 
-    // void set_registers(const vector<int>& registers_) {
-    //     registers = registers_;
-    // }
+    void set_registers(int index, int value) {
+        registers[index] = value;
+    }
 
     void set_sp(int sp_){
         sp = sp_;
@@ -66,7 +67,7 @@ public:
 
 
 private:
-    vector<int> registers;
+    int registers[6];
     int sp;
     int pc; 
     int st;

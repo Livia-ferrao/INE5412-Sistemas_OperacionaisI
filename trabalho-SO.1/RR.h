@@ -28,6 +28,8 @@ public:
             if (running_process->remaining_time == 0) {
                 running_process->state = "Finished";
                 running_process->end = time;
+                 // Salva o contexto da CPU para o processo
+                cpu->save_context(running_process->p_context);
             } else {
                 running_process->state = "Ready";
                 ready_processes.push(running_process);
@@ -44,6 +46,8 @@ public:
             next_process->begin = time;
             running_process = next_process;
             time_slice_remaining_ = RR_QUANTUM;
+            // Carrega o contexto do processo para a CPU
+            cpu->load_context(running_process->p_context);
         }
 
         // Processo executando
