@@ -21,7 +21,7 @@ public:
 
     ~Scheduler() {}
 
-    void run() {};
+    void run() {}
 
     virtual void init_ready_queue(std::vector<Process*> processes_queue, int time){}
 

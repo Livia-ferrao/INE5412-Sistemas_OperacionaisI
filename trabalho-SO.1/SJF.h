@@ -14,6 +14,7 @@ public:
 
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){
+
         for (Process *process : processes) {
             if (process->creation_time == time) {
                 process->state = "Ready";
