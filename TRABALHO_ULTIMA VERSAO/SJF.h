@@ -26,7 +26,7 @@ public:
         }
     }
 
-    void scheduler(int time, CPU* cpu) {
+    void schedule(int time, CPU* cpu) {
         //  Verifica se tem processo em execução e o tempo de execução terminou
         if (running_process != nullptr && running_process->get_remaining_time() == 0) {
             running_process->set_state("Finished");

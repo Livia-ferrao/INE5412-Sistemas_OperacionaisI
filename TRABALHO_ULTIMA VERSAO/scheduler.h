@@ -24,7 +24,7 @@ public:
     virtual void init_ready_queue(std::vector<Process*> processes_queue, int time) = 0;
 
     // virtual void scheduler(int time, CPU *cpu) {}
-    virtual void scheduler(int time, CPU *cpu) = 0;
+    virtual void schedule(int time, CPU *cpu) = 0;
 
     virtual void print_context(CPU* cpu){
         cpu->print_CPU_context();

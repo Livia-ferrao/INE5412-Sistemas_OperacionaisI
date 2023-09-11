@@ -24,7 +24,7 @@ public:
         }
     }
 
-    void scheduler(int time, CPU *cpu) {
+    void schedule(int time, CPU *cpu) {
         //  Verifica se tem processo em execução e o tempo de execução terminou
         if (running_process != nullptr && running_process->get_remaining_time() == 0) {
             running_process->set_state("Finished");
@@ -38,6 +38,7 @@ public:
         // Verifica se o processador está livre e tem processo na fila
         if (running_process == nullptr && !ready_processes.empty()) {
             Process* next_process = ready_processes.front();
+            cout << next_process << endl;
             ready_processes.pop();
             next_process->set_state("Running");
             next_process->set_begin(time);

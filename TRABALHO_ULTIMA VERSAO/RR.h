@@ -26,7 +26,7 @@ public:
         }
     }
 
-    void scheduler(int time, CPU* cpu) {
+    void schedule(int time, CPU* cpu) {
         //  Verifica se tem processo em execução e não tem mais tempo de execução ou tempo de quantum
         if (running_process != nullptr && (running_process->get_remaining_time() == 0 || time_slice_remaining_ == 0)) {
             if (running_process->get_remaining_time() == 0) {

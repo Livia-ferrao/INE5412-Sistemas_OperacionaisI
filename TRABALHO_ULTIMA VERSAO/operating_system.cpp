@@ -72,7 +72,7 @@ void Operating_system::run_scheduler() {
         scheduler->init_ready_queue(processes_queue, time);
 
         // Processa o algoritmo selecionado
-        scheduler->scheduler(time, cpu);
+        scheduler->schedule(time, cpu);
 
         // Verifica término do escalonamento
         allFinished = verify_finished_scheduling();
@@ -119,8 +119,9 @@ void Operating_system::print_processes_queue(){
 
 // Imprimir na tela métricas finais de cada algoritmo de escalonamento
 void Operating_system::print_metrics(){
-    int avgtat = 0;
-    int avgwt = 0;
+    double avgtat = 0;
+    double avgwt = 0;
+    
     for (Process *p : processes_queue) {
         p->set_turnround_time(p->get_end() - p->get_creation_time());
         p->set_waiting_time(p->get_turnround_time() - p->get_duration());
