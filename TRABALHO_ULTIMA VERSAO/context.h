@@ -2,6 +2,7 @@
 #define CONTEXT_H
 
 #include <cstdlib>
+#include <iostream>
 
 class Context {
 public:
