@@ -14,6 +14,8 @@ public:
 
     SJF() {}
 
+    ~SJF() {}
+
     // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){
         for (Process *process : processes) {
@@ -24,7 +26,7 @@ public:
         }
     }
 
-    void processing(int time, CPU* cpu) {
+    void scheduler(int time, CPU* cpu) {
         //  Verifica se tem processo em execução e o tempo de execução terminou
         if (running_process != nullptr && running_process->get_remaining_time() == 0) {
             running_process->set_state("Finished");

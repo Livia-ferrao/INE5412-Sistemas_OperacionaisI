@@ -9,19 +9,10 @@ class FCFS: public Scheduler {
 
 public:
     // Construtor
-    // FCFS(CPU* _cpu) : Scheduler(_cpu) {}
-
     FCFS() {}
 
     // Destrutor
-    ~FCFS(){
-        cout << "ENTROU AQUI ============= " << endl;
-        while (!ready_processes.empty()) {
-            Process* process = ready_processes.front();  // Obtenha o próximo elemento da fila
-            ready_processes.pop();  // Remova o elemento da fila
-            delete process;  // Libere a memória do objeto Process
-        }
-    }
+    ~FCFS(){}
 
     // Verifica se alguma tarefa inicia agora e adiciona na fila
     void init_ready_queue(std::vector<Process*> processes, int time){
@@ -31,16 +22,9 @@ public:
                 ready_processes.push(process);
             }
         }
-
-        // while (!ready_processes.empty()) {
-        //     Process* process = ready_processes.front(); // Obtenha o próximo elemento da fila
-        //     ready_processes.pop(); // Remova o elemento da cópia da fila
-        //     // Imprima os valores do processo (ou apenas o que desejar)
-        //     std::cout << "Process ID: " << process<< std::endl; // Substitua getId() pelo método correto para acessar os atributos do seu objeto Process
-        // }
     }
 
-    void processing(int time, CPU *cpu) {
+    void scheduler(int time, CPU *cpu) {
         //  Verifica se tem processo em execução e o tempo de execução terminou
         if (running_process != nullptr && running_process->get_remaining_time() == 0) {
             running_process->set_state("Finished");
@@ -54,7 +38,6 @@ public:
         // Verifica se o processador está livre e tem processo na fila
         if (running_process == nullptr && !ready_processes.empty()) {
             Process* next_process = ready_processes.front();
-            cout << next_process << endl;
             ready_processes.pop();
             next_process->set_state("Running");
             next_process->set_begin(time);

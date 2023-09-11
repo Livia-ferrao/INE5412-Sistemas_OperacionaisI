@@ -9,15 +9,8 @@ Operating_system::Operating_system() {
 }
 
 Operating_system::~Operating_system() {
-    // Libere a memória alocada para os processos, scheduler e cpu
-    // for (Process* p : processes_queue) {
-    //     delete p;
-    // }
-
     for (int i = 0; i < processes_queue.size(); i++) {
         Process* p = processes_queue[i];
-        cout<< "SO: " << endl;
-        cout << p << endl;
         delete p;
     }
     delete scheduler;
@@ -79,7 +72,7 @@ void Operating_system::run_scheduler() {
         scheduler->init_ready_queue(processes_queue, time);
 
         // Processa o algoritmo selecionado
-        scheduler->processing(time, cpu);
+        scheduler->scheduler(time, cpu);
 
         // Verifica término do escalonamento
         allFinished = verify_finished_scheduling();

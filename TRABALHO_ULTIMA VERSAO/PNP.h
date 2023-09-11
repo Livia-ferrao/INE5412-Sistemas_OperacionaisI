@@ -12,7 +12,9 @@ public:
 
     // PNP(CPU* _cpu) : Scheduler(_cpu) {}
 
-    PNP () {}
+    PNP () : Scheduler() {}
+
+    ~PNP() {}
 
    // Verifica se alguma tarefa inicia agora
     void init_ready_queue(std::vector<Process*> processes, int time){
@@ -24,7 +26,7 @@ public:
         }
     }
 
-    void processing(int time, CPU* cpu) {
+    void scheduler(int time, CPU* cpu) {
         //  Verifica se tem processo em execução e o tempo de execução terminou
         if (running_process != nullptr && running_process->get_remaining_time() == 0) {
             running_process->set_state("Finished");
@@ -58,7 +60,6 @@ public:
 
 private:
     // std::queue<Process*> ready_processes;   // A List of Processes
-    Process* running_process;
     struct CompareProcessesPriority {
         bool operator()(const Process* a, const Process* b) const {
             return a->get_priority() < b->get_priority(); // Comparação por prioridade
