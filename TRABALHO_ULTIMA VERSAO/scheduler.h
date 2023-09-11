@@ -34,7 +34,8 @@ public:
     
     virtual void print_state(std::vector<Process*> processes_queue, int time) {
         cout << time << "-" << time+1 << "\t";
-            for (int i = 0; i < processes_queue.size(); i++) {
+            int size = processes_queue.size();
+            for (int i = 0; i < size; i++) {
                 if (processes_queue[i]->get_state() == "Running"){
                     cout << "XX |"; 
                 } else if(processes_queue[i]->get_state() == "Ready"){

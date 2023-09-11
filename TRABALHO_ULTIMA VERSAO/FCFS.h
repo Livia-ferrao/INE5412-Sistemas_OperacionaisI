@@ -15,6 +15,7 @@ public:
 
     // Destrutor
     ~FCFS(){
+        cout << "ENTROU AQUI ============= " << endl;
         while (!ready_processes.empty()) {
             Process* process = ready_processes.front();  // Obtenha o próximo elemento da fila
             ready_processes.pop();  // Remova o elemento da fila
@@ -48,12 +49,12 @@ public:
             Context context = running_process->get_p_context();
             cpu->save_context(context);
             running_process = nullptr;
-
         }
 
         // Verifica se o processador está livre e tem processo na fila
         if (running_process == nullptr && !ready_processes.empty()) {
             Process* next_process = ready_processes.front();
+            cout << next_process << endl;
             ready_processes.pop();
             next_process->set_state("Running");
             next_process->set_begin(time);

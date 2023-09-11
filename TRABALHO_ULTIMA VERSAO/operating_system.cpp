@@ -10,7 +10,14 @@ Operating_system::Operating_system() {
 
 Operating_system::~Operating_system() {
     // Libere a memória alocada para os processos, scheduler e cpu
-    for (Process* p : processes_queue) {
+    // for (Process* p : processes_queue) {
+    //     delete p;
+    // }
+
+    for (int i = 0; i < processes_queue.size(); i++) {
+        Process* p = processes_queue[i];
+        cout<< "SO: " << endl;
+        cout << p << endl;
         delete p;
     }
     delete scheduler;
@@ -124,7 +131,7 @@ void Operating_system::print_metrics(){
     for (Process *p : processes_queue) {
         p->set_turnround_time(p->get_end() - p->get_creation_time());
         p->set_waiting_time(p->get_turnround_time() - p->get_duration());
-        cout << "------------ PROCESSO " << p->get_id() << "------------";
+        cout << "------------ PROCESSO " << p->get_id() + 1 << "------------";
         cout << "\nTurnround time = " << p->get_turnround_time();
         cout << "\nWaiting time = " << p->get_waiting_time();
 
