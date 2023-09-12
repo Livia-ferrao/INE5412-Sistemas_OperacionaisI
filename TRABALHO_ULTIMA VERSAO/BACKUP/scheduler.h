@@ -15,16 +15,19 @@
 
 class Scheduler {
 public:
+    // Scheduler(CPU* _cpu) : cpu(_cpu), running_process(nullptr) {}
+
     Scheduler(): running_process(nullptr){} // Construtor padrão
 
     virtual ~Scheduler() {};
 
     virtual void init_ready_queue(std::vector<Process*> processes_queue, int time) = 0;
 
-    virtual void schedule(int time) = 0;
+    // virtual void scheduler(int time, CPU *cpu) {}
+    virtual void schedule(int time, CPU *cpu) = 0;
 
-    virtual void print_context(){
-        CPU::print_CPU_context();
+    virtual void print_context(CPU* cpu){
+        cpu->print_CPU_context();
         running_process->print_process_context();
     }
     
@@ -46,7 +49,10 @@ public:
     }
 
 protected:
+    // POSSO POR OS PROCESSOS AQUI PASSANDO POR CONSTRUTOR
+    // std::queue<Process*> processes;   // A List of Processes
     Process* running_process = nullptr;
+    // CPU* cpu;
 };
 
 #endif

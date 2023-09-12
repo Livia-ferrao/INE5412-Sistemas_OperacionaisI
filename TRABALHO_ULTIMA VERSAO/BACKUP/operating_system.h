@@ -24,7 +24,7 @@ public:
 private:
     std::vector<Process*> processes_queue;
     Scheduler* scheduler;
-    // CPU* cpu;
+    CPU* cpu;
 
     Scheduler* init_scheduler(int scheduler_type);
     void init_processes(std::vector<Process*> processes);

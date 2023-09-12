@@ -35,7 +35,7 @@ public:
     void set_end(int _end);
     std::string get_state() const;
     void set_state(const std::string& _state);
-    Context* get_p_context();
+    Context *get_p_context();
     void set_p_context(const Context& _p_context);
 
 private:

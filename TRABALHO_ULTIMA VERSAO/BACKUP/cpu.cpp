@@ -10,10 +10,6 @@ CPU::CPU() {
 CPU::~CPU() {
 }
 
-int CPU::count_change_context = 0;
-
-Context CPU::cpu_context;
-
 // Imprime na tela os valores dos registradores da CPU
 void CPU::print_CPU_context() {
     std::cout << "=========== CPU CONTEXT =============" << std::endl;

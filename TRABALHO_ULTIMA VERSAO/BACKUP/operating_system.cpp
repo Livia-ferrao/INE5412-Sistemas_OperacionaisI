@@ -5,7 +5,7 @@
 
 Operating_system::Operating_system() {
     scheduler = nullptr; 
-    // cpu = nullptr;
+    cpu = nullptr;
 }
 
 Operating_system::~Operating_system() {
@@ -14,7 +14,7 @@ Operating_system::~Operating_system() {
         delete p;
     }
     delete scheduler;
-    // delete cpu;
+    delete cpu;
 }
 
 
@@ -26,7 +26,7 @@ void Operating_system::execute(int scheduler_type) {
     f.print_processes_params();
     vector<Process*> processes = f.getProcesses();
     init_processes(processes);
-    // cpu = new CPU();
+    cpu = new CPU();
     scheduler = init_scheduler(scheduler_type); // FCFS, SJF, RR...
     run_scheduler();
 }
@@ -72,7 +72,7 @@ void Operating_system::run_scheduler() {
         scheduler->init_ready_queue(processes_queue, time);
 
         // Processa o algoritmo selecionado
-        scheduler->schedule(time);
+        scheduler->schedule(time, cpu);
 
         // Verifica término do escalonamento
         allFinished = verify_finished_scheduling();
@@ -85,7 +85,7 @@ void Operating_system::run_scheduler() {
         scheduler->print_state(processes_queue, time);
     
         // PARA VER O CONTEXTO DOS PROCESSOS E DA CPU A CADA SEGUNDO DE TEMPO DESCOMENTE ESTA LINHA
-        // scheduler->print_context();
+        // scheduler->print_context(cpu);
 
         ++time;
     }
@@ -136,6 +136,6 @@ void Operating_system::print_metrics(){
 
     cout << "\nTempo médio de Turnround time = " << avgtat/processes_queue.size();
     cout << "\nTempo médio de Waiting Time = " << avgwt/processes_queue.size();
-    cout << "\nTrocas de contexto = " << CPU::get_count_change_context();
+    cout << "\nTrocas de contexto = " << cpu->get_count_change_context();
     cout << "\n";
 }

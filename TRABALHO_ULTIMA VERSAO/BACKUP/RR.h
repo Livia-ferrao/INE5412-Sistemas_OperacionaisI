@@ -26,14 +26,14 @@ public:
         }
     }
 
-    void schedule(int time) {
+    void schedule(int time, CPU* cpu) {
         //  Verifica se tem processo em execução e não tem mais tempo de execução ou tempo de quantum
         if (running_process != nullptr && (running_process->get_remaining_time() == 0 || time_slice_remaining_ == 0)) {
             if (running_process->get_remaining_time() == 0) {
                 running_process->set_state("Finished");
                 running_process->set_end(time);
                 // Salva o contexto da CPU para o processo
-                CPU::save_context(running_process->get_p_context());
+                cpu->save_context(running_process->get_p_context());
             } else {
                 running_process->set_state("Ready");
                 ready_processes.push(running_process);
@@ -51,7 +51,7 @@ public:
             running_process = next_process;
             time_slice_remaining_ = RR_QUANTUM;
            // Carrega o contexto do processo para a CPU
-           CPU::load_context(running_process->get_p_context());
+            cpu->load_context(running_process->get_p_context());
         }
 
         // Processo executando
