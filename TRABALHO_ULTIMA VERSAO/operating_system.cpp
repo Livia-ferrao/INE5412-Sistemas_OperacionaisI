@@ -1,6 +1,3 @@
-// #ifndef OPERATING_SYSTEM_CPP
-// #define OPERATING_SYSTEM_CPP
-
 #include "operating_system.h"
 
 Operating_system::Operating_system() {
