@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -Wall -std=c++11
 
-SRCS = context.cpp main.cpp scheduler.cpp cpu.cpp operating_system.cpp process.cpp read_file.cpp
+SRCS = context.cpp main.cpp cpu.cpp operating_system.cpp process.cpp scheduler.cpp read_file.cpp SJF.cpp FCFS.cpp PNP.cpp PPP.cpp RR.cpp
 OBJS = $(SRCS:.cpp=.o)
 EXEC = my_program
 
@@ -9,9 +9,9 @@ all: $(EXEC)
 
 $(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC)
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	
+run: $(EXEC)
+	./$(EXEC)
 
 clean:
 	rm -f $(OBJS) $(EXEC)
