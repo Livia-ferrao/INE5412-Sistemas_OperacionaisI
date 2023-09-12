@@ -2,7 +2,6 @@
 
 Operating_system::Operating_system() {
     scheduler = nullptr; 
-    // cpu = nullptr;
 }
 
 Operating_system::~Operating_system() {
@@ -11,11 +10,10 @@ Operating_system::~Operating_system() {
         delete p;
     }
     delete scheduler;
-    // delete cpu;
 }
 
 
-// Le a entrada, inicializa os processos, a CPU, o escalonador e chama a execução do algoritmo
+// Le a entrada, inicializa os processos, o escalonador e chama a execução do algoritmo
 void Operating_system::execute(int scheduler_type) {
     std::cout << "Lendo arquivo\n";
     File f;
@@ -23,7 +21,6 @@ void Operating_system::execute(int scheduler_type) {
     f.print_processes_params();
     vector<Process*> processes = f.getProcesses();
     init_processes(processes);
-    // cpu = new CPU();
     scheduler = init_scheduler(scheduler_type); // FCFS, SJF, RR...
     run_scheduler();
 }
@@ -73,7 +70,7 @@ void Operating_system::run_scheduler() {
 
         // Verifica término do escalonamento
         allFinished = verify_finished_scheduling();
-        if (allFinished){
+        if (allFinished){ 
             cout << "Todos os processos estão no estado 'Finished'. Saindo do loop." << endl;
             break;
         }

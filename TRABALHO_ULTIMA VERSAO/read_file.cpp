@@ -28,14 +28,14 @@ void File::read_file() {
 void File::print_processes_params() {
     std::vector<Process*>::iterator iter = processes.begin();
 
-    for (iter; iter < processes.end(); iter++) {
+    for (; iter < processes.end(); iter++) {
         Process* p = *iter;
         std::cout << *p;
     }
 }
 
 File::~File() {
-    for (int i = 0; i < processes.size(); i++) {
+    for (int i = 0; i < static_cast<int>(processes.size()); i++) {
         Process* p = processes[i];
         delete p;
     }

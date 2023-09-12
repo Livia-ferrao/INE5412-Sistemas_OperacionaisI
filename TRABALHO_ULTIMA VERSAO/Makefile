@@ -13,5 +13,8 @@ $(EXEC): $(OBJS)
 run: $(EXEC)
 	./$(EXEC)
 
+check:
+	valgrind --leak-check=summary --show-leak-kinds=all ./$(EXEC)
+
 clean:
 	rm -f $(OBJS) $(EXEC)
