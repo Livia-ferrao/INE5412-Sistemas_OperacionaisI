@@ -17,6 +17,10 @@ public:
 
     void schedule(int time, CPU* cpu) override;
 
+    bool compareProcessesByDuration(const Process* a, const Process* b) {
+    return a->get_duration() > b->get_duration();
+    }
+
 private:
     struct CompareProcessesDuration {
         bool operator()(const Process* a, const Process* b) const {

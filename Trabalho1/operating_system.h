@@ -19,19 +19,18 @@ public:
     Operating_system();
     ~Operating_system();
 
+    Scheduler* init_scheduler(int scheduler_type);
+    void init_processes(std::vector<Process*> processes);
     void execute(int scheduler_type);
+    void run_scheduler();
+    bool verify_finished_scheduling();
+    void print_metrics();
+    void print_processes_queue();
 
 private:
     std::vector<Process*> processes_queue;
     Scheduler* scheduler;
     CPU* INE5412;
-
-    Scheduler* init_scheduler(int scheduler_type);
-    void init_processes(std::vector<Process*> processes);
-    void run_scheduler();
-    bool verify_finished_scheduling();
-    void print_metrics();
-    void print_processes_queue();
 };
 
 #endif

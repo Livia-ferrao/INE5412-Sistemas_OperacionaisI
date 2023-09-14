@@ -10,8 +10,8 @@ public:
     Process(int c, int d, int p, int pid);
     ~Process();
 
-    friend std::ostream &operator<<(std::ostream& os, const Process& p);
 
+    friend std::ostream &operator<<(std::ostream& os, const Process& p);
     void print_process_context();
 
     int get_id() const;
