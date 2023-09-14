@@ -10,6 +10,7 @@ void FCFS::init_ready_queue(std::vector<Process*> processes, int time) {
     }
 }
 
+// Realiza o escalonamento
 void FCFS::schedule(int time, CPU* cpu) {
     //  Verifica se tem processo em execução e o tempo de execução terminou
     if (running_process != nullptr && running_process->get_remaining_time() == 0) {
@@ -20,6 +21,7 @@ void FCFS::schedule(int time, CPU* cpu) {
         running_process = nullptr;
     }
 
+    // Verifica se não tem processo em execução no momento e se tem processo na fila
     if (running_process == nullptr && !ready_processes.empty()) {
         Process* next_process = ready_processes.front();
         ready_processes.pop();

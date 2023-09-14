@@ -24,7 +24,6 @@ void Context::generate_random_values() {
     sp = rand();
 }
 
-// Gets e Sets
 int Context::get_registers(int index) {
     return registers[index];
 }

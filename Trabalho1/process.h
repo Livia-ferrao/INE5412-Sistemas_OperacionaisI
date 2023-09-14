@@ -8,7 +8,6 @@ using namespace std;
 class Process {
 public:
     Process(int c, int d, int p, int pid);
-    Process();
     ~Process();
 
     friend std::ostream &operator<<(std::ostream& os, const Process& p);
