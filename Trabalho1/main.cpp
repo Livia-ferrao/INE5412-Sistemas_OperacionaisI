@@ -7,9 +7,9 @@ int main(){
     int scheduler_type;
     cout << "0 - First Come, First Served\n";
     cout << "1 - Shortest Job First\n";
-    cout << "2 - Por prioridade, sem preempção\n";
-    cout << "3 - Por prioridade, com preempção por prioridade\n";
-    cout << "4 - Round-Robin com quantum\n";
+    cout << "2 - Priority Without Preemption\n";
+    cout << "3 - Priority With Priority Preemption\n";
+    cout << "4 - Round-Robin with Quantum\n";
 
     cout << "\n Digite o algoritmo de escalonamento: ";
     cin >> scheduler_type;
@@ -19,5 +19,3 @@ int main(){
 
     return 0;
 }
-
-
