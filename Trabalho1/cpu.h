@@ -15,6 +15,7 @@ public:
     void load_context(Context* p_context);
     void save_context(Context* p_context);
     int get_count_change_context();
+    void set_count_change_context(int count_change_context);
 
 private:
     Context cpu_context;

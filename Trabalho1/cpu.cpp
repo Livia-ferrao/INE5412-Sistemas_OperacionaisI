@@ -51,3 +51,7 @@ void CPU::save_context(Context* p_context) {
 int CPU::get_count_change_context() {
     return count_change_context;
 }
+
+void CPU::set_count_change_context(int count_change_context_) {
+    count_change_context = count_change_context_;
+}

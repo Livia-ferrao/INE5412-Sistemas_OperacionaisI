@@ -26,6 +26,7 @@ public:
     bool verify_finished_scheduling();
     void print_metrics();
     void print_processes_queue();
+    void reset_process(vector<Process*> processes);
 
 private:
     std::vector<Process*> processes_queue;

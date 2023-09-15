@@ -29,10 +29,41 @@ void Operating_system::execute(int scheduler_type) {
     // Inicializa a CPU
     INE5412 = new CPU();
     // Inicializa o escalonador
-    scheduler = init_scheduler(scheduler_type); // FCFS, SJF, RR...
+    scheduler = init_scheduler(scheduler_type); 
     run_scheduler();
+
+    // Para rodar todos algoritmos juntos descomentar essas linhas e comentar as duas linhas acima
+    // scheduler = init_scheduler(0); // FCFS
+    // run_scheduler();
+    // reset_process(processes);
+
+    // scheduler = init_scheduler(1); // SJF
+    // run_scheduler();
+    // reset_process(processes);
+
+    // scheduler = init_scheduler(2); // PNP
+    // run_scheduler();
+    // reset_process(processes);
+
+    // scheduler = init_scheduler(3); // PPP
+    // run_scheduler();
+    // reset_process(processes);
+
+    // scheduler = init_scheduler(4); // RR
+    // run_scheduler();
+    // reset_process(processes);
+
 }
 
+void Operating_system::reset_process(vector<Process*> processes){
+    for (int i = 0; i < static_cast<int>(processes_queue.size()); i++) {
+        processes_queue[i]->set_creation_time(processes[i]->get_creation_time());
+        processes_queue[i]->set_duration(processes[i]->get_duration());
+        processes_queue[i]->set_remaining_time(processes[i]->get_remaining_time());
+        processes_queue[i]->set_state("New");
+    }
+    INE5412->set_count_change_context(0);
+}
 // Inicializa escalonador
 Scheduler* Operating_system::init_scheduler(int scheduler_type) {
     switch (scheduler_type) {
@@ -94,6 +125,7 @@ void Operating_system::run_scheduler() {
 
     // Imprime métricas finais do algoritmo escolhido
     print_metrics();
+    cout << endl;
     time = 0;
 }
 
