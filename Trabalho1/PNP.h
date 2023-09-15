@@ -5,7 +5,7 @@
 #include <vector>
 #include "process.h"
 #include "scheduler.h"
-#include "cpu.h" // Certifique-se de incluir o arquivo de cabeçalho da classe CPU
+#include "cpu.h"
 
 class PNP : public Scheduler {
 public:

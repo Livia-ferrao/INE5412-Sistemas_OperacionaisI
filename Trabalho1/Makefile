@@ -5,7 +5,7 @@ SRCS = context.cpp main.cpp cpu.cpp operating_system.cpp process.cpp scheduler.c
 OBJS = $(SRCS:.cpp=.o)
 EXEC = my_program
 
-all: $(EXEC)
+compile: $(EXEC)
 
 $(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC)
