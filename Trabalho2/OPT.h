@@ -6,13 +6,12 @@
 class OptPaging : public AbstractPaging {
     public:
         // Construtor com parâmetro
-        OptPaging(int pageCount, const std::vector<int> references);
+        OptPaging(int pageCount, Memory& memory, const std::vector<int> references);
         // Submissão de uma página para análise
         void refer(int page) override;
         // Limpeza dos dados, retorno ao estado inicial
         void clear() override;
 
-        int findFarthestPage();
         int findPageToReplace();
 
     private:

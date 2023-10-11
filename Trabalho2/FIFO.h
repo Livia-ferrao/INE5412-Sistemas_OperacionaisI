@@ -5,7 +5,7 @@
 class FifoPaging : public AbstractPaging {
   public:
     // Construtor com parâmetro
-    FifoPaging(int pageCount);
+    FifoPaging(int pageCount, Memory memory);
     // Submissão de uma página para análise
     void refer(int page) override;
     // Limpeza dos dados, retorno ao estado inicial

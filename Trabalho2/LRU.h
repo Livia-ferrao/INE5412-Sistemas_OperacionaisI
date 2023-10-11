@@ -6,7 +6,7 @@
 class LruPaging : public AbstractPaging {
   public:
     // Construtor com parâmetro
-    LruPaging(int pageCount);
+    LruPaging(int pageCount, Memory memory);
     // Submissão de uma página para análise
     void refer(int page) override;
     // Limpeza dos dados, retorno ao estado inicial

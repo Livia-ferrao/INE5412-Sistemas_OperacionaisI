@@ -22,25 +22,29 @@
 // }
 
 #include "FIFO.h"
+#include "memory.h"
 #include <algorithm>
 #include <vector>
 
 // Construtor com parâmetro
-FifoPaging::FifoPaging(int pageCount) : AbstractPaging(pageCount) {}
+FifoPaging::FifoPaging(int pageCount, Memory memory) : AbstractPaging(pageCount, memory) {}
 
 // Submissão de uma página para análise
-void FifoPaging::refer(int page) {
-    if (std::find(mPages.begin(), mPages.end(), page) == mPages.end()) {
+void FifoPaging::refer(int num) {
+    // memory.printPages();
+    if (!memory.find(num)) {
         ++mPageFault;
-        if (mPages.size() == mPageCount) {
-            mPages.erase(mPages.begin()); // Remove o elemento mais antigo (FIFO)
+        if (memory.isFull()) {
+            // mPages.erase(mPages.begin()); // Remove o elemento mais antigo (FIFO)
+            memory.erasePageBegin();
         }
-        mPages.push_back(page);
+        // mPages.push_back(num);
+        memory.addPageEnd(num);
     }
 }
 
 // Limpeza dos dados, retorno ao estado inicial
 void FifoPaging::clear() {
     mPageFault = 0;
-    mPages.clear();
+    // mPages.clear();
 }

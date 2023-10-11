@@ -3,20 +3,22 @@
 #include <limits> 
 
 // Construtor com parâmetro
-OptPaging::OptPaging(int pageCount, const std::vector<int> references) : AbstractPaging(pageCount), references(references) {}
+OptPaging::OptPaging(int pageCount, Memory& memory, const std::vector<int> references) : AbstractPaging(pageCount, memory), references(references) {}
 
 // Submissão de uma página para análise
 void OptPaging::refer(int page) {
-    if (std::find(mPages.begin(), mPages.end(), page) == mPages.end()) {
+    //std::find(mPages.begin(), mPages.end(), page) == mPages.end()
+    if (!memory.find(page)) {
         ++mPageFault;
-        if (mPages.size() == mPageCount) {
+        //mPages.size() == mPageCount
+        if (memory.isFull()) {
             // Encontra a página mais distante no futuro e a substitui
             int indexToRemove = findPageToReplace();
-            // cout << "index: " << indexToRemove << endl;
-            // cout << endl;
-            mPages[indexToRemove] = page;
+            // memory.erasePage(index);
+            memory.pages[indexToRemove] = page;
         } else {
-            mPages.push_back(page);
+            memory.addPageEnd(page);
+            // mPages.push_back(page);
             references.erase(references.begin());
         }
     } else {
@@ -27,7 +29,7 @@ void OptPaging::refer(int page) {
 // Limpeza dos dados, retorno ao estado inicial
 void OptPaging::clear() {
     mPageFault = 0;
-    mPages.clear();
+    // mPages.clear();
 }
 
 int OptPaging::findPageToReplace() {
@@ -46,8 +48,8 @@ int OptPaging::findPageToReplace() {
         // }
         // cout << endl;
 
-        for (int i = 0; i < mPages.size(); ++i) {
-            int page = mPages[i];
+        for (int i = 0; i < memory.pages.size(); ++i) {
+            int page = memory.pages[i].getValue();
             
             auto it = std::find(references.begin(), references.end(), page);
             // cout << "it - " << *it << endl;

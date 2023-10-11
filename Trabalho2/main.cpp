@@ -5,6 +5,7 @@
 #include "FIFO.h"
 #include "LRU.h"
 #include "OPT.h"
+#include "memory.h"
 
 using namespace std;
 
@@ -39,16 +40,35 @@ int main(int argc, char *argv[]) {
     cout << num_frames << " quadros" << endl;
     cout << references.size() -1 << " refs" << endl;
 
+    Memory memory(num_frames);
+    // memory.addPageEnd(1);
+    // memory.addPageEnd(7);
+    // memory.addPageEnd(5);
+    // memory.addPageEnd(4);
+
+    // memory.printPages();
+
+    // int a = memory.find(2);
+
+    // cout << a << endl;
+    // cout << "Vetor de paginas: " << endl;
+    // for(int i; i<memory.pages.size(); i++){
+    //     cout << memory.pages[i].getValue() << " - ";
+    // }
+    // cout << endl;
+
+
      // FIFO, LRU e OPT
-    pagingFIFO = std::unique_ptr<AbstractPaging>(new FifoPaging(num_frames));
-    pagingLRU = std::unique_ptr<AbstractPaging>(new LruPaging(num_frames));
-    pagingOPT = std::unique_ptr<AbstractPaging>(new OptPaging(num_frames, references));
+    pagingFIFO = std::unique_ptr<AbstractPaging>(new FifoPaging(num_frames, memory));
+    pagingLRU = std::unique_ptr<AbstractPaging>(new LruPaging(num_frames, memory));
+    pagingOPT = std::unique_ptr<AbstractPaging>(new OptPaging(num_frames, memory, references));
 
     for(int page: references ){
         pagingFIFO->refer(page);
         pagingLRU->refer(page);
         pagingOPT->refer(page);
     }
+
 
      // Quantidade de faltas de páginas
     std::cout << "FIFO: " << pagingFIFO->getPageFaultCount() << std::endl;
