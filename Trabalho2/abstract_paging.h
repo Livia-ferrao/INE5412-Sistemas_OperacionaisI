@@ -13,10 +13,7 @@ using namespace std;
 class AbstractPaging {
   public:
     // Construtor com parâmetro
-    AbstractPaging(int pageCount, Memory memory) : mPageCount(pageCount), memory(memory) {
-        if (pageCount <= 0)
-            throw std::invalid_argument("FrameCount <= 0");
-    }
+    AbstractPaging(Memory memory) : memory(memory) {}
     // Submeter a página para avaliação
     virtual void refer(int page) = 0;
     // Obter a lista de páginas
@@ -29,12 +26,9 @@ class AbstractPaging {
     virtual ~AbstractPaging() {}
 
   protected:
-    // Número máximo de páginas na memória
-    int mPageCount;
     // Número atual de falhas de página
     int mPageFault = 0;
-    // Fila de páginas
-    // std::vector<int> mPages;
+    // Memória
     Memory memory;
 };
 

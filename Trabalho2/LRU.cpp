@@ -31,7 +31,7 @@
 #include <vector>
 
 // Construtor com parâmetro
-LruPaging::LruPaging(int pageCount, Memory memory) : AbstractPaging(pageCount, memory) {}
+LruPaging::LruPaging(Memory memory) : AbstractPaging(memory) {}
 
 // Submissão de uma página para análise
 void LruPaging::refer(int page) {

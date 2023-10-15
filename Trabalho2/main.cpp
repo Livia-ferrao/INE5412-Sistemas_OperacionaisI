@@ -6,10 +6,14 @@
 #include "LRU.h"
 #include "OPT.h"
 #include "memory.h"
+#include "simulador.h"
+#include <chrono>
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+
     // Leitura da entrada
     if (argc != 2) {
         cerr << "Uso: " << argv[0] << " <num_frames>" << endl;
@@ -17,51 +21,35 @@ int main(int argc, char *argv[]) {
     }
     // Número de frames da memória RAM
     int num_frames = stoi(argv[1]);
-    // Ponteiro para o algoritmo de substituição de página
-    std::unique_ptr<AbstractPaging> pagingFIFO;
-    std::unique_ptr<AbstractPaging> pagingLRU;
-    std::unique_ptr<AbstractPaging> pagingOPT;
-
     // Vetor de páginas
     vector<int> references;
     // Cada linha do arquivo uma página
     int page;
     // Vetor recebe as páginas
-    // while (cin >> page) {
-    //     references.push_back(page);
-    // }
     while (!feof(stdin))
     {
         scanf("%d",&page);
         references.push_back(page);
     }
 
+    // Simulador simulador(num_frames, references);
+    
+    // // Iniciar a simulação
+    // simulador.start_simulation();
 
-    cout << num_frames << " quadros" << endl;
-    cout << references.size() -1 << " refs" << endl;
+    // // Imprimir resultados
+    // simulador.print_terminal();
 
+    // Ponteiro para o algoritmo de substituição de página
+    std::unique_ptr<AbstractPaging> pagingFIFO;
+    std::unique_ptr<AbstractPaging> pagingLRU;
+    std::unique_ptr<AbstractPaging> pagingOPT;
     Memory memory(num_frames);
-    // memory.addPageEnd(1);
-    // memory.addPageEnd(7);
-    // memory.addPageEnd(5);
-    // memory.addPageEnd(4);
-
-    // memory.printPages();
-
-    // int a = memory.find(2);
-
-    // cout << a << endl;
-    // cout << "Vetor de paginas: " << endl;
-    // for(int i; i<memory.pages.size(); i++){
-    //     cout << memory.pages[i].getValue() << " - ";
-    // }
-    // cout << endl;
-
 
      // FIFO, LRU e OPT
-    pagingFIFO = std::unique_ptr<AbstractPaging>(new FifoPaging(num_frames, memory));
-    pagingLRU = std::unique_ptr<AbstractPaging>(new LruPaging(num_frames, memory));
-    pagingOPT = std::unique_ptr<AbstractPaging>(new OptPaging(num_frames, memory, references));
+    pagingFIFO = std::unique_ptr<AbstractPaging>(new FifoPaging(memory));
+    pagingLRU = std::unique_ptr<AbstractPaging>(new LruPaging(memory));
+    pagingOPT = std::unique_ptr<AbstractPaging>(new OptPaging(memory, references));
 
     for(int page: references ){
         pagingFIFO->refer(page);
@@ -69,54 +57,22 @@ int main(int argc, char *argv[]) {
         pagingOPT->refer(page);
     }
 
+    // Método print 
+    cout << num_frames << " quadros" << endl;
+    cout << references.size() -1 << " refs" << endl;
 
      // Quantidade de faltas de páginas
     std::cout << "FIFO: " << pagingFIFO->getPageFaultCount() << std::endl;
     std::cout << "LRU: " << pagingLRU->getPageFaultCount() << std::endl;
     std::cout << "OPT: " << pagingOPT->getPageFaultCount() << std::endl;
 
+    // Fim da contagem de tempo
+    auto end_time = std::chrono::high_resolution_clock::now();
 
-    // ===== LRU ======
-    //  for(int page: references ){
-    //     paging->refer(page);
-    // }
-    //  // Quantidade de faltas de páginas
-    // std::cout << "LRU: " << paging->getPageFaultCount() << std::endl;
+    // Calcular a duração em milissegundos
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
 
-    // // Iterando sobre a lista e imprimindo cada elemento
-    // // for (int page : paging->getList()) {
-    // //     std::cout << page << " ";
-    // // }
-    // paging->clear();
+    std::cout << "Tempo de execução: " << duration.count() << " ms" << std::endl;
 
-    
-    // ===== OPT ======
-    // paging = std::unique_ptr<AbstractPaging>(new OptPaging(num_frames, references));
-    //  for(int page: references ){
-    //     paging->refer(page);
-    // }
-    //  // Quantidade de faltas de páginas
-    // std::cout << "OPT: " << paging->getPageFaultCount() << std::endl;
-
-    // // // Iterando sobre a lista e imprimindo cada elemento
-    // // for (int page : paging->getList()) {
-    // //     std::cout << page << " ";
-    // // }
-    // paging->clear();
-    
-
-
-
-
-    // Fazendo downcast para FifoPaging
-    // FifoPaging* fifoPaging = dynamic_cast<FifoPaging*>(paging.get());
-
-    // // Quantidade de faltas de páginas
-    // std::cout << paging->getPageFaultCount() << std::endl;
-
-    // // Iterando sobre a lista e imprimindo cada elemento
-    // for (int page : paging->getList()) {
-    //     std::cout << page << " ";
-    // }
  
 }

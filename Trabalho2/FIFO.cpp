@@ -27,7 +27,7 @@
 #include <vector>
 
 // Construtor com parâmetro
-FifoPaging::FifoPaging(int pageCount, Memory memory) : AbstractPaging(pageCount, memory) {}
+FifoPaging::FifoPaging(Memory memory) : AbstractPaging(memory) {}
 
 // Submissão de uma página para análise
 void FifoPaging::refer(int num) {

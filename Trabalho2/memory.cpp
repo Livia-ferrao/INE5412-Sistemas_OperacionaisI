@@ -1,4 +1,3 @@
-
 #include "memory.h"
 #include "page.h"
 #include <iostream>
@@ -18,6 +17,14 @@ void Memory::erasePage(int num){
     pages.erase(std::remove_if(pages.begin(), pages.end(),
                        [num](const Page& page) { return page.getValue() == num; }),
                     pages.end());
+}
+
+void Memory::replacePage(int index, int num) {
+    if (index >= 0 && index < pages.size()) {
+        pages[index] = Page(num);
+    } else {
+        std::cout << "Índice fora dos limites." << std::endl;
+    }
 }
 
 bool Memory::isFull(){

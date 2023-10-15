@@ -20,8 +20,9 @@ class Memory {
         void setPages(std::vector<Page>& pages);
         int getNumFrames();
         void setNumFrames(int num_frames);
+        void replacePage(int index, int newPageValue);
 
-    public:
+    private:
         std::vector<Page> pages;
         int num_frames;
 };

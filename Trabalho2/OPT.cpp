@@ -3,7 +3,7 @@
 #include <limits> 
 
 // Construtor com parâmetro
-OptPaging::OptPaging(int pageCount, Memory& memory, const std::vector<int> references) : AbstractPaging(pageCount, memory), references(references) {}
+OptPaging::OptPaging(Memory memory, const std::vector<int> references) : AbstractPaging(memory), references(references) {}
 
 // Submissão de uma página para análise
 void OptPaging::refer(int page) {
@@ -15,7 +15,8 @@ void OptPaging::refer(int page) {
             // Encontra a página mais distante no futuro e a substitui
             int indexToRemove = findPageToReplace();
             // memory.erasePage(index);
-            memory.pages[indexToRemove] = page;
+            memory.replacePage(indexToRemove, page);
+            // memory.pages[indexToRemove] = page;
         } else {
             memory.addPageEnd(page);
             // mPages.push_back(page);
@@ -29,50 +30,36 @@ void OptPaging::refer(int page) {
 // Limpeza dos dados, retorno ao estado inicial
 void OptPaging::clear() {
     mPageFault = 0;
-    // mPages.clear();
 }
 
+
 int OptPaging::findPageToReplace() {
-        int farthestIndex;
-        int farthestDistance;
-    
-        // cout << "references" << endl;
-        // for (int i = 0; i < references.size(); ++i) {
-        //     cout <<" - " <<  references[i];
+        int farthestIndex = -1;
+        int farthestDistance = -1; 
+        // cout << "----- SAIU ---- "<< endl;
+        // memory.printPages();
+        // print references
+        // cout << "REFERENCES: ";
+        // for(int z = 0; z < references.size(); z++){
+        //     cout << references[z] << "-";
         // }
         // cout << endl;
 
-        // cout << "mPAGES" << endl;
-        // for (int i = 0; i < mPages.size(); ++i) {
-        //     cout <<" - " <<  mPages[i];
-        // }
-        // cout << endl;
+        for (int i = 0; i < memory.getPages().size(); ++i) {
+            int page = memory.getPages()[i].getValue();
+            // Procura a próxima referência a essa página
+            auto nextReference = std::find(references.begin(), references.end(), page);
 
-        for (int i = 0; i < memory.pages.size(); ++i) {
-            int page = memory.pages[i].getValue();
-            
-            auto it = std::find(references.begin(), references.end(), page);
-            // cout << "it - " << *it << endl;
-
-            if (it != references.end()) {
-                // cout << "VALOR ENCONTRADO" << endl;
-                int futureDistance = std::distance(it, references.end());
-                // cout << "Distancia: " << futureDistance << endl;
-                if (i == 0){
-                    farthestIndex = i;
-                    farthestDistance = futureDistance;
-                } else {
-                     if (futureDistance < farthestDistance) {
-                        farthestIndex = i;
-                        farthestDistance = futureDistance;
-                    }
-                }
-            } else {
-                // cout << "VALOR NAO ENCONTRADO" << endl;
+            if (nextReference == references.end()) {
                 references.erase(references.begin());
-                return i;  // Se a página não for referenciada no futuro, substitui imediatamente
+                return i;
             }
 
+            int distance = std::distance(references.begin(), nextReference);
+            if (distance > farthestDistance) {
+                farthestDistance = distance;
+                farthestIndex = i;
+            }
         }
         
         references.erase(references.begin());
