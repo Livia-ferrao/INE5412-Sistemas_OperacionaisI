@@ -6,9 +6,9 @@
 OptPaging::OptPaging(Memory memory, const std::vector<int> references) : AbstractPaging(memory), references(references) {}
 
 // Submissão de uma página para análise
-void OptPaging::refer(int page) {
+void OptPaging::refer(int num) {
     // Verifica se referência foi encontrada no vetor de páginas
-    if (!memory.find(page)) {
+    if (!memory.find(num)) {
         // Mais uma falta de página
         ++pageFault;
         // Verifica se a memória está cheia 
@@ -16,10 +16,10 @@ void OptPaging::refer(int page) {
             // Encontra a página mais distante no futuro
             int indexToRemove = findPageToReplace();
             // Substitui a página pelo índice
-            memory.replacePage(indexToRemove, page);
+            memory.replacePage(indexToRemove, num);
         } else {
             // Adiciona página no final
-            memory.addPageEnd(page);
+            memory.addPageEnd(num);
             // Deleta primeira referência
             references.erase(references.begin());
         }
