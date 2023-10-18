@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent, int num_frames, std::vector<int> referen
 {
     // Configuração da interface gráfica
     ui->setupUi(this);
-
     // Inicialização dos objetos de algoritmos de substituição de página
     pagingFIFO = std::make_unique<FifoPaging>(memory);
     pagingLRU = std::make_unique<LruPaging>(memory);
