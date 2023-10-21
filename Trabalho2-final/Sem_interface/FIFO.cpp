@@ -8,7 +8,7 @@ FifoPaging::FifoPaging(Memory memory) : AbstractPaging(memory) {}
 
 // Submissão de uma página para análise
 void FifoPaging::refer(int num) {
-    // Verifica se referência foi encontrada no vetor de páginad
+    // Verifica se referência foi encontrada no vetor de páginas
     if (!memory.find(num)) {
         // Mais uma falta de página
         ++pageFault;

@@ -24,7 +24,7 @@ void Simulador::print_terminal() {
     cout << memory.getNumFrames() << " quadros" << endl;
     cout << references.size() -1 << " refs" << endl;
     // Imprime quantidade de falta de páginas algoritmos
-    cout << "FIFO Page Faults: " << pagingFIFO->getPageFaultCount() << "\n";
-    cout << "LRU Page Faults: " << pagingLRU->getPageFaultCount() << "\n";
-    cout << "OPT Page Faults: " << pagingOPT->getPageFaultCount() << "\n";
+    cout << "FIFO: " << pagingFIFO->getPageFaultCount() << " PFs" << "\n";
+    cout << "LRU: " << pagingLRU->getPageFaultCount() << " PFs" << "\n";
+    cout << "OPT: " << pagingOPT->getPageFaultCount() << " PFs" <<  "\n";
 }
