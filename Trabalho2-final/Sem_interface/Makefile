@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-std=c++14
-TARGET=main
+TARGET=simulador
 SRC=main.cpp FIFO.cpp LRU.cpp OPT.cpp memory.cpp simulador.cpp page.cpp
 
 all: $(TARGET)

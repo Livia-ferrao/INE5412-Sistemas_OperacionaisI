@@ -36,6 +36,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     README.md \
-    input.txt \
-    input1.txt \
-    input2.txt
+    vsim-belady.txt \
+    vsim-exemplo.txt \
+    vsim-gcc.txt

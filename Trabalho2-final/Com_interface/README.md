@@ -13,13 +13,13 @@ make
 ### Para executar o código:
 
 ```console
-./SO_project 4 < input.txt 
+./SO_project 4 < vsim-exemplo.txt 
 ```
 
 ```console
-./SO_project 4 < input1.txt 
+./SO_project 4 < vsim-belady.txt 
 ```
 
 ```console
-./SO_project 4 < input2.txt 
+./SO_project 4 < vsim-gcc.txt 
 ```

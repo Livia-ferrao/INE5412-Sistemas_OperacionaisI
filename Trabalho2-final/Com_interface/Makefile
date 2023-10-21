@@ -68,9 +68,9 @@ OBJECTS       = FIFO.o \
 		page.o \
 		moc_mainwindow.o
 DIST          = README.md \
-		input.txt \
-		input1.txt \
-		input2.txt \
+		vsim-belady.txt \
+		vsim-exemplo.txt \
+		vsim-gcc.txt \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
