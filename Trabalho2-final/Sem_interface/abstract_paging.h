@@ -22,6 +22,8 @@ class AbstractPaging {
     virtual void reset() { pageFault = 0; }
     // Destrutor
     virtual ~AbstractPaging() {}
+    // Seta a tabela de referências utilizada no OPT
+    virtual void setRefTable(vector<int> references) {}
 
   protected:
     // Número atual de falhas de página

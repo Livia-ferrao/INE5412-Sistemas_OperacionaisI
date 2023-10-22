@@ -9,6 +9,9 @@ Simulador::Simulador(int num_frames, vector<int> references)
 
 // Inicia simulação
 void Simulador::start_simulation() {
+    //setNext
+    pagingOPT->setRefTable(references);
+
     // Executa algoritmo para cada referencia
     for (int page : references) {
         // Referencia páginas
