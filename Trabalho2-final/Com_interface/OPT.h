@@ -9,21 +9,14 @@ public:
     OptPaging(Memory memory, const std::vector<int> references);
     // Submissão de uma página para análise
     void refer(int page) override;
-    // Limpeza dos dados, retorno ao estado inicial
-    void clear(int frames, std::vector<int> newReferences) override {
-        AbstractPaging::clear(frames);
-        references = newReferences;
-    }
     // Encontra página para ser substítuida
     int findPageToReplace();
-    // Seta referências
-    void setReferences(const std::vector<int>& newReferences) {
-        references = newReferences;
-    }
+    // Seta tabela de referências
+    void setRefTable(vector<int> references) override;
 
 private:
-    // Vetor de referências
-    std::vector<int> references;
+    // Tabela de referências
+    std::vector<vector<int>> referencesTable;
 };
 
 #endif // OPT_PAGING_H

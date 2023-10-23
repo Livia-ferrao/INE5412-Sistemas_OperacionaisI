@@ -30,11 +30,12 @@ void MainWindow::on_startButton_clicked()
 {
     // Obtém o número de quadros a partir da interface gráfica
     int frames = ui->spinBox->value();
-
+    
     // Limpa os resultados anteriores
     pagingFIFO->clear(frames);
     pagingLRU->clear(frames);
-    pagingOPT->clear(frames, references);
+    pagingOPT->clear(frames);
+    pagingOPT->setRefTable(references);
 
     // Divide a entrada do usuário em uma lista de strings
     QStringList stringList = ui->lineEdit->text().split(QRegularExpression("[.,;\\s]+"));
@@ -96,7 +97,8 @@ void MainWindow::setFileContent(int numFrames, const std::vector<int> &reference
 }
 
 void MainWindow::simulateFile()
-{
+{   
+    pagingOPT->setRefTable(references);
     // Simula o conteúdo do arquivo na interface gráfica
     for (int page : references) {
         QString resultLine = pagingFIFO->update_gui(page);

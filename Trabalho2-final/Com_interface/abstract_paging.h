@@ -22,7 +22,7 @@ public:
     // Obter memória
     virtual Memory getMemory() {return memory; }
     // Limpar os dados, retornar ao estado inicial
-    virtual void clear(int frames, std::vector<int> = {}) {
+    virtual void clear(int frames) {
         pageFault = 0;
         memory.clearPages();
         memory.setNumFrames(frames);
@@ -49,6 +49,8 @@ public:
         }
         return resultLine;
     }
+    // Seta a tabela de referências utilizada no OPT
+    virtual void setRefTable(vector<int> references) {}
 
 protected:
     // Número atual de falhas de página
