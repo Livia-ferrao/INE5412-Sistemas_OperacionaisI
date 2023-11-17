@@ -53,9 +53,14 @@ public:
     int  fs_read(int inumber, char *data, int length, int offset);
     int  fs_write(int inumber, const char *data, int length, int offset);
 
+    bool load_inode(size_t inumber, fs_inode *node);
+    void read_helper(uint32_t blocknum, int offset, int *length, char **data, char **ptr);
+
 private:
     Disk *disk;
     fs_superblock MetaData;
+    // vector<int> inode_counter = vector<int>();
+    // vector<bool> free_blocks = vector<bool>();
     vector<int> inode_counter;
     vector<bool> free_blocks;
     bool mounted = false;

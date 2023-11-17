@@ -228,6 +228,7 @@ int File_Ops::do_copyout(int inumber, const char *filename, INE5412_FS *fs)
 
 	while(1) {
 		result = fs->fs_read(inumber,buffer,sizeof(buffer),offset);
+		cout << "RESULT: " << result << endl;
 		if(result<=0) break;
 		fwrite(buffer,1,result,file);
 		offset += result;

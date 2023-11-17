@@ -13,7 +13,7 @@ Disk::Disk(const char *filename, int n)
 		return;
 	}
 
-	ftruncate(fileno(diskfile), n * DISK_BLOCK_SIZE);
+	ftruncate(fileno(diskfile), n * DISK_BLOCK_SIZE); 
 
     nblocks = n;
     nreads = 0;

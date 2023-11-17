@@ -10,7 +10,7 @@ using namespace std;
 class Disk
 {
 public:
-    static const unsigned short int DISK_BLOCK_SIZE = 4096;
+    static const unsigned short int DISK_BLOCK_SIZE = 4096; 
     static const unsigned int DISK_MAGIC = 0xdeadbeef;
 
     Disk(const char *filename, int nblocks);
