@@ -181,7 +181,7 @@ int main( int argc, char *argv[] )
 int File_Ops::do_copyin(const char *filename, int inumber, INE5412_FS *fs)
 {
 	FILE *file;
-	int offset=0, result, actual;
+	int offset=0, result, actual; 
 	char buffer[16384];
 
 	file = fopen(filename, "r");
@@ -192,6 +192,7 @@ int File_Ops::do_copyin(const char *filename, int inumber, INE5412_FS *fs)
 
 	while(1) {
 		result = fread(buffer,1,sizeof(buffer),file);
+		cout << "RESULT: " << result << endl;
 		if(result <= 0) break;
 		if(result > 0) {
 			actual = fs->fs_write(inumber,buffer,result,offset);
