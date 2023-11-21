@@ -5,45 +5,52 @@
 
 int INE5412_FS::fs_format()
 {
-	// Como sei que o disco já foi montado?
-	// if(disk->mounted()) return false;
-
-	//write superblock 
-    union fs_block block;
-    memset(&block, 0, sizeof(fs_block));
-
-    block.super.magic = INE5412_FS::FS_MAGIC;
-    block.super.nblocks = (int)(disk->size());
-    block.super.ninodeblocks = (int)std::ceil(block.super.nblocks * 0.1);
-    block.super.ninodes = block.super.ninodeblocks * (INE5412_FS::INODES_PER_BLOCK);
-
-    disk->write(0,block.data);
-
-	//clear all other blocks (inodes)
-    for(int i = 1; i <= block.super.ninodeblocks; i++){
-        union fs_block inodeblock;
-
-        // clear individual Inodes
-        for(int j = 0; j < INE5412_FS::INODES_PER_BLOCK; j++){
-            inodeblock.inode[j].isvalid = false;
-            inodeblock.inode[j].size = 0;
-
-            // clear all direct Pointers
-            for(int k = 0; k < INE5412_FS::POINTERS_PER_INODE; k++)   
-                inodeblock.inode[j].direct[k] = 0;
-    
-            // clear indirect Pointer
-            inodeblock.inode[j].indirect = 0;
-        }
-
-        disk->write(i,inodeblock.data);
+	// Se o disco já foi montado retorna erro
+    if(mounted){
+        return 0;
     }
 
-	// Free Data Blocks
-    for(int i = (block.super.ninodeblocks) + 1; i < block.super.nblocks; i++) {
-        union fs_block datablock;
-        memset(datablock.data, 0, Disk::DISK_BLOCK_SIZE);
-        disk->write(i, datablock.data);
+	// Pega bloco a ser utilizado
+    union fs_block block;
+    // Inicializar bloco
+    //memset(&block, 0, sizeof(fs_block));
+
+    // Armazena as informações do superbloco
+    block.super.magic = INE5412_FS::FS_MAGIC;
+    block.super.nblocks = (int)disk->size();
+    block.super.ninodeblocks = (int)std::ceil(block.super.nblocks * 0.1);
+    block.super.ninodes = block.super.ninodeblocks * INE5412_FS::INODES_PER_BLOCK;
+
+    // Escreve informações do superbloco
+    disk->write(0,block.data);
+
+	// Percorre os blocos de inodes
+    for(int i = 1; i <= block.super.ninodeblocks; i++) {
+        // Pega o bloco
+        union fs_block inode_block;
+        // Percorre os inodes
+        for(int j = 0; j < INE5412_FS::INODES_PER_BLOCK; j++) {
+            // Reseta informações dos inodes
+            inode_block.inode[j].size = 0;
+            inode_block.inode[j].isvalid = false;
+            inode_block.inode[j].indirect = 0;
+            for(int t = 0; t < INE5412_FS::POINTERS_PER_INODE; t++)   
+                inode_block.inode[j].direct[t] = 0;
+        }
+        // Escreve bloco no disco
+        disk->write(i, inode_block.data);
+    }
+
+	// Reseta informações dos blocos de dados
+    for(int i = block.super.ninodeblocks + 1; i < block.super.nblocks; i++) {
+        // Pega bloco de dado
+        union fs_block data_block;
+        // Atribui 0 para os dados
+        for (int j = 0; j < Disk::DISK_BLOCK_SIZE; j++) {
+            data_block.data[j] = 0;
+        }
+        // memset(data_block.data, 0, Disk::DISK_BLOCK_SIZE);
+        disk->write(i, data_block.data);
     }
 
 	return 1;
@@ -54,7 +61,8 @@ void INE5412_FS::fs_debug()
 	union fs_block block;
 
 	disk->read(0, block.data);
-    MetaData = block.super; 
+    // Armazena informações do superbloco
+    MetaData = block.super;
 
 	std::cout << "superblock:\n";
 	std::cout << "    " << (block.super.magic == FS_MAGIC ? "magic number is valid\n" : "magic number is invalid!\n");
@@ -62,37 +70,58 @@ void INE5412_FS::fs_debug()
 	std::cout << "    " << block.super.ninodeblocks << " inode blocks\n";
 	std::cout << "    " << block.super.ninodes << " inodes\n";
 
-	//reading the inode blocks
-    int ii = 0;
-    for(int i = 1; i <= MetaData.ninodeblocks; i++) { // passa pelos 3 blocos de inodes (de 20)
-        printf("BLOCK %u:\n", i);
-        disk->read(i, block.data); // array of inodes
-        for(int j = 0; j < INODES_PER_BLOCK; j++) {   // cada um dos 3 tem 128 inodos (128*3=384)
-            //iterating through INODES_PER_BLOCK inodes
-			if(block.inode[j].isvalid) {
-				printf("Inode %u:\n", ii);
-				printf("    size: %u bytes\n", block.inode[j].size);
-				printf("    direct blocks:");
+	// Número do inode a ser impresso na tela
+    int number_inode = 0;
+    // Percorre os "n" blocos de inode
+    for(int i = 1; i <= MetaData.ninodeblocks; i++) {
+        // Lê o bloco de inode
+        disk->read(i, block.data);
 
-                //iterating through the direct nodes
-                for(int k = 0; k < POINTERS_PER_INODE; k++) {
-                    if(block.inode[j].direct[k]) printf(" %u", block.inode[j].direct[k]);
+        // Percorre a quantidade de inodes por bloco de inode
+        for(int j = 0; j < INODES_PER_BLOCK; j++) {
+            // Armazena inode em uso
+            fs_inode inode_data = block.inode[j];
+            // Verifica se o inode é válido
+			if(inode_data.isvalid) {
+
+                // Se for válido imprime suas informações
+                std::cout << "Inode " << number_inode << ":\n";
+                std::cout << "    size: " << inode_data.size << " bytes\n";
+                std::cout << "    direct blocks:";
+
+                // Percorre os ponteiros diretos do inode
+                for(int t = 0; t < POINTERS_PER_INODE; t++) {
+                    // Se existir o ponteiro direto imprima o número do bloco armazenado nele
+                    if(inode_data.direct[t]) {
+                        std::cout << " " << inode_data.direct[t];
+                    }
                 }
                 printf("\n");
 
-                // iterate through the indirect nodes
-                if(block.inode[j].indirect){
-                    printf("    indirect block: %u\n    indirect data blocks:",block.inode[j].indirect);
-                    union fs_block indirectblock;
-                    disk->read(block.inode[j].indirect, indirectblock.data);
-                    for(int k = 0; k < POINTERS_PER_BLOCK; k++) {
-                        if(indirectblock.pointers[k]) printf(" %u", indirectblock.pointers[k]);
+                int indirect_pointer = inode_data.indirect;
+                // Verifica se existe ponteiro indireto
+                if(indirect_pointer){
+                    // Se existir, imprime suas informações na tela
+                    std::cout << "    indirect block: " << indirect_pointer << "\n";
+                    std::cout << "    indirect data blocks:";
+
+                    // Pega o bloco indireto e percorre seus ponteiros
+                    union fs_block indirect_block;
+                    disk->read(indirect_pointer, indirect_block.data);
+
+                    // Percorre os ponteiros do bloco
+                    for(int t = 0; t < POINTERS_PER_BLOCK; t++) {
+                        // Se existir os ponteiros imprima o número do bloco armazenado neles
+                        if(indirect_block.pointers[t]) {
+                            std::cout << " " << indirect_block.pointers[t];
+                        }
                     }
-                    printf("\n");
+
+                    std::cout << "\n";
             	}
             }
-
-            ii++;
+            // Soma o número do inode
+            number_inode++;
         }    
     }
 }
