@@ -4,13 +4,13 @@
 #include "disk.h"
 #include <vector>
 
-class INE5412_FS
+class SIMPLE_FS
 {
 public:
     static const unsigned int FS_MAGIC = 0xf0f03410;
-    static const unsigned short int INODES_PER_BLOCK = 128;
-    static const unsigned short int POINTERS_PER_INODE = 5;
-    static const unsigned short int POINTERS_PER_BLOCK = 1024;
+    static const unsigned short int INODES_POR_BLOCO = 128;
+    static const unsigned short int PONTEIROS_POR_INODE = 5;
+    static const unsigned short int PONTEIROS_POR_BLOCO = 1024;
 
     class fs_superblock {
         public:
@@ -24,21 +24,21 @@ public:
         public:
             int isvalid;
             int size;
-            int direct[POINTERS_PER_INODE];
+            int direct[PONTEIROS_POR_INODE];
             int indirect;
     };
 
     union fs_block {
         public:
             fs_superblock super;
-            fs_inode inode[INODES_PER_BLOCK];
-            int pointers[POINTERS_PER_BLOCK];
+            fs_inode inode[INODES_POR_BLOCO];
+            int pointers[PONTEIROS_POR_BLOCO];
             char data[Disk::DISK_BLOCK_SIZE];
     };
 
 public:
 
-    INE5412_FS(Disk *d) {
+    SIMPLE_FS(Disk *d) {
         disk = d;
     } 
 
