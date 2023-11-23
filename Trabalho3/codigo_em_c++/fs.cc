@@ -30,11 +30,32 @@ int INE5412_FS::fs_format()
                 // Reseta informações dos inodes
                 inode_block.inode[j].size = 0;
                 inode_block.inode[j].isvalid = false;
+<<<<<<< HEAD
                 // Reseta ponteiros diretos
+=======
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
                 for(int t = 0; t < INE5412_FS::POINTERS_PER_INODE; t++) {
                     inode_block.inode[j].direct[t] = 0;
                 }
 
+<<<<<<< HEAD
+=======
+                // Resetar parte indireta
+                // union fs_block inode_block_indirect;
+                // // Le o bloco para parte indireta
+                // // disk->read(inode_block.inode[j].indirect, inode_block_indirect.data);
+                // // Reseta ponteiros da parte indiretas
+                // for(int t = 0; t < INE5412_FS::POINTERS_PER_BLOCK; t++) {
+                //      inode_block_indirect.pointers[t] = 0;
+                // }
+                // // Escreve de volta no disco
+                // disk->write(inode_block.inode[j].indirect, inode_block_indirect.data);
+
+                // cout << inode_block_indirect.pointers[0] << endl;
+                // cout << inode_block_indirect.pointers[1] << endl;
+                // cout << inode_block_indirect.pointers[2] << endl;
+
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
                 // Reseta ponteiro indireto
                 inode_block.inode[j].indirect = 0;
             }
@@ -136,13 +157,63 @@ void INE5412_FS::fs_debug()
 int INE5412_FS::fs_mount()
 {   
     // Verifica se o disco ainda não foi montado
+<<<<<<< HEAD
     if(!mounted){
         // Lê o superbloco
         union fs_block block;
         disk->read(0,block.data);
+=======
+    if(!mounted) {
+        // Lê o superbloco
+        union fs_block block;
+        disk->read(0,block.data);
+        
+        // Verifica valores do superbloco
+        // if(block.super.magic != FS_MAGIC) {
+        //     return false;
+        // }
+        // if(block.super.ninodeblocks != (int)std::ceil(block.super.nblocks * 0.1)) {
+        //     return false;
+        // }
+        // if(block.super.ninodes != (block.super.ninodeblocks * INODES_PER_BLOCK)) {
+        //     return false;
+        // }
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
 
         // Armazena informações do superbloco
         context = block.super;
+
+<<<<<<< HEAD
+        // Inicializa como false o bitmap
+        for (int i = 0; i < context.nblocks; ++i) {
+            bitmap.push_back(false);
+        }
+        // Bitmap 0 que é o superbloco recebe Verdadeiro pois está ocupado
+        bitmap[0] = true;
+
+        // Inicializa como 0 a contagem de inodes
+        for (int i = 0; i < static_cast<int>(context.ninodeblocks); ++i) {
+            counter_inode.push_back(0); 
+        }
+        
+        //Interação para preencher o bitmap
+        for(int i = 1; i <= context.ninodeblocks; i++) {
+            // Le os blocos de inode
+            disk->read(i, block.data);
+            // Percorre os inodes
+            for(int j = 0; j < INODES_PER_BLOCK; j++) {
+
+                // Entra se inode for válido
+                if(block.inode[j].isvalid) {
+                    // Incrementa um na contagem de inodes
+                    counter_inode[i-1] += 1;
+
+                    // Coloca bitmap para Verdadeiro
+                    bitmap[i] = true;
+
+=======
+        // bitmap.resize(context.nblocks, false);
+        // counter_inode.resize(context.ninodeblocks, 0);
 
         // Inicializa como false o bitmap
         for (int i = 0; i < context.nblocks; ++i) {
@@ -171,6 +242,7 @@ int INE5412_FS::fs_mount()
                     // Coloca bitmap para Verdadeiro
                     bitmap[i] = true;
 
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
                     // Percorre ponteiros diretos
                     for(int k = 0; k < POINTERS_PER_INODE; k++) {
                         // Entra se existir o ponteiro direto
@@ -274,6 +346,11 @@ int INE5412_FS::fs_create()
 
 
 bool INE5412_FS::load_inode(int inumber, fs_inode *node) {
+<<<<<<< HEAD
+=======
+
+    // if((inumber > static_cast<int>(context.ninodes)) || (inumber < 1)){return false;}
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
 
     // Pega bloco
     union fs_block block;
@@ -376,7 +453,11 @@ int INE5412_FS::fs_getsize(int inumber)
     // Pega inode
     fs_inode node;
 
+<<<<<<< HEAD
     /// Carrega inode e retorna tamanho
+=======
+    // Carrega inode e retorna tamanho
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
     if(load_inode(inumber, &node)) {
         return node.size;
     }
@@ -465,7 +546,10 @@ int INE5412_FS::fs_read(int inumber, char *data, int length, int offset)
             // 1 bloco lido, então incrementa-se valor do bloco
             copy_bytes += Disk::DISK_BLOCK_SIZE;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
         
         // Deleta buffer
         delete [] buffer;
@@ -481,6 +565,10 @@ int INE5412_FS::fs_write(int inumber, const char *data, int length, int offset)
 {   
     // Verifica se o disco está montado    
     if(mounted) {
+<<<<<<< HEAD
+=======
+                
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
         // Pega o inode
         fs_inode node;
         // Carrega o inode pelo inumber
@@ -499,6 +587,7 @@ int INE5412_FS::fs_write(int inumber, const char *data, int length, int offset)
         if (endPointer >= static_cast<int>(blocos.size())) {
             endPointer = blocos.size();
         }
+<<<<<<< HEAD
         
         // Percorre cada bloco para fazer a ecrita
         for(int i = startPointer; i < endPointer && i < static_cast<int>(blocos.size()); i++){
@@ -514,6 +603,23 @@ int INE5412_FS::fs_write(int inumber, const char *data, int length, int offset)
         // Ajusta tamanho do inode utilizado
         node.size = max(node.size, bytes_write);
 
+=======
+
+        // Percorre cada bloco para fazer a ecrita
+        for(int i = startPointer; i < endPointer && i < static_cast<int>(blocos.size()); i++){
+            // Faz a escrita do data no bloco
+            disk->write(blocos[i], data);
+            
+            // Incrementa o tamanho do bloco no dado para que a próxima leitura se inicie no ponto certo
+            data += Disk::DISK_BLOCK_SIZE;
+            // Seta os valores de bytes escritos
+            bytes_write += Disk::DISK_BLOCK_SIZE;
+        }
+
+        // Ajusta tamanho do inode utilizado
+        node.size = max(node.size, bytes_write);
+
+>>>>>>> b2aa5a86450df7b5439d3d4a8f56b1c0c5b739b3
         // Retorna quantidade de bytes escritos
         return bytes_write;
     } else {
