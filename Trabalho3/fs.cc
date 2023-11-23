@@ -55,7 +55,6 @@ int INE5412_FS::fs_format()
         }
         
     } else {
-        // Erro
         return 0;
     }
 
