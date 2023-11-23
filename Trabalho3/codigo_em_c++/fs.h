@@ -58,9 +58,9 @@ public:
 
 private:
     Disk *disk;
-    fs_superblock MetaData;
-    vector<int> inode_counter;
-    vector<bool> free_blocks;
+    fs_superblock context;
+    vector<int> counter_inode;
+    vector<bool> bitmap;
     bool mounted = false;
 };
 
