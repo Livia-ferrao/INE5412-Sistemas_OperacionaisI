@@ -76,7 +76,7 @@ void INE5412_FS::fs_debug()
 	std::cout << "    " << block.super.ninodes << " inodes\n";
 
 	// Número do inode a ser impresso na tela
-    int number_inode = 1;
+    int number_inode = 0;
     // Percorre os "n" blocos de inode
     for(int i = 1; i <= context.ninodeblocks; i++) {
         // Lê o bloco de inode
